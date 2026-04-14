@@ -1,0 +1,4 @@
+import { SwissApp } from '@kibologic/core';
+import { LandingPage } from './pages/LandingPage.uix';
+
+SwissApp.mount(LandingPage, document.getElementById('app'));

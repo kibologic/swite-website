@@ -1,0 +1,14 @@
+{
+  "name": "swite-website",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node dev.mjs"
+  },
+  "dependencies": {
+    "@kibologic/core": "0.1.6",
+    "@kibologic/swite": "latest",
+    "reflect-metadata": "^0.2.2"
+  }
+}
