@@ -1,4 +1,20 @@
-import { SwissApp } from '@kibologic/core';
+import { mount, Signal } from '@kibologic/core';
 import { LandingPage } from './pages/LandingPage.uix';
+import { DocsPage } from './pages/DocsPage.uix';
 
-SwissApp.mount(LandingPage, document.getElementById('app'));
+const route$ = new Signal(window.location.hash || '#/');
+
+window.addEventListener('hashchange', () => {
+  route$.value = window.location.hash || '#/';
+  window.scrollTo(0, 0);
+});
+
+component Router {
+  render() {
+    const r = route$.value;
+    if (r === '#/' || r === '') return <LandingPage />;
+    return <DocsPage route={r} />;
+  }
+}
+
+mount(Router, document.getElementById('app'));

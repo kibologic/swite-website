@@ -1,0 +1,106 @@
+import { SwissComponent } from '@kibologic/core';
+
+component Shell {
+  props = {
+    activeRoute: string
+  };
+
+  state { let theme: 'light' | 'dark' = 'dark'; }
+
+  mounted() {
+    const saved = localStorage.getItem('swite-theme') as 'light' | 'dark' | null;
+    this.theme = saved || 'dark';
+    document.documentElement.setAttribute('data-theme', this.theme);
+  }
+
+  toggleTheme() {
+    this.theme = this.theme === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', this.theme);
+    localStorage.setItem('swite-theme', this.theme);
+
+    if (!document.getElementById('swite-shell-styles')) {
+      const s = document.createElement('style');
+      s.id = 'swite-shell-styles';
+      s.textContent = `
+        .callout { padding: 16px 20px; border-radius: 4px; margin: 24px 0; border-left: 4px solid; font-size: 13px; line-height: 1.6; }
+        .callout-info { background: rgba(74, 144, 217, 0.05); border-color: #4A90D9; color: var(--text-primary); }
+        .callout-tip { background: rgba(245, 166, 35, 0.05); border-color: var(--brand-accent); color: var(--text-primary); }
+        .callout-warning { background: rgba(255, 184, 108, 0.05); border-color: #ffb86c; color: var(--text-primary); }
+        .callout-danger { background: rgba(255, 85, 85, 0.05); border-color: #ff5555; color: var(--text-primary); }
+      `;
+      document.head.appendChild(s);
+    }
+  }
+
+  render() {
+    const sections = [
+      {
+        title: 'Getting Started',
+        links: [
+          { name: 'Introduction', path: '#/docs' },
+          { name: 'Installation', path: '#/docs/install' },
+          { name: 'Configuration', path: '#/docs/config' }
+        ]
+      },
+      {
+        title: 'Engineering',
+        links: [
+          { name: 'Why Swite', path: '#/why-swite' },
+          { name: 'HMR Architecture', path: '#/docs/hmr' },
+          { name: 'Module Resolution', path: '#/docs/resolution' }
+        ]
+      },
+      {
+        title: 'Reference',
+        links: [
+          { name: 'CLI Commands', path: '#/docs/cli' },
+          { name: 'Plugin API', path: '#/docs/plugins' },
+          { name: 'Troubleshooting', path: '#/docs/errors' }
+        ]
+      }
+    ];
+
+    return (
+      <div style="min-height: 100vh; display: flex; flex-direction: column;">
+        {/* NAV */}
+        <nav style="height: 64px; border-bottom: 1px solid var(--border); background: var(--bg-page); position: sticky; top: 0; z-index: 100; display: flex; align-items: center; padding: 0 24px; justify-content: space-between;">
+           <div style="display: flex; align-items: center; gap: 40px;">
+              <a href="#/" style="display: flex; align-items: center; gap: 8px; font-weight: 900; font-size: 18px; text-decoration: none; color: var(--text-primary);">
+                <div style="width: 20px; height: 20px; background: var(--brand-accent); clip-path: polygon(50% 0%, 0% 100%, 100% 100%);"></div>
+                swite
+              </a>
+              <div style="position: relative;">
+                <input type="text" placeholder="Search config... (Cmd+K)" style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: 4px; padding: 8px 12px 8px 36px; font-size: 12px; font-family: inherit; width: 240px; color: var(--text-primary);" />
+                <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); opacity: 0.5;">🔍</span>
+              </div>
+           </div>
+           <div style="display: flex; align-items: center; gap: 24px;">
+              <button onclick={() => this.toggleTheme()} style="background: none; border: none; cursor: pointer; color: var(--text-secondary); font-size: 11px; font-weight: 800;">{this.theme === 'light' ? 'DARK' : 'LIGHT'}</button>
+              <a href="https://github.com/kibologic/swite" target="_blank" style="text-decoration: none; color: var(--text-secondary); font-size: 12px; font-weight: 700;">GitHub</a>
+           </div>
+        </nav>
+
+        <div style="display: flex; flex: 1; container; max-width: 1400px; margin: 0 auto; width: 100%;">
+          {/* SIDEBAR */}
+          <aside style="width: 280px; border-right: 1px solid var(--border); padding: 40px 24px; position: sticky; top: 64px; height: calc(100vh - 64px); overflow-y: auto;">
+            {sections.map(section => (
+              <div key={section.title} style="margin-bottom: 40px;">
+                <h5 style="font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-muted); margin-bottom: 20px;">{section.title}</h5>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                  {section.links.map(link => (
+                    <a key={link.name} href={link.path} style={`font-size: 13px; text-decoration: none; font-weight: 700; transition: color 0.2s; ${this.activeRoute === link.path ? 'color: var(--brand-accent); shadow: 0 0 10px var(--brand-accent-subtle);' : 'color: var(--text-secondary);'}`} onmouseover={(e: any) => !this.activeRoute.includes(link.path) && (e.target.style.color = 'var(--text-primary)')} onmouseout={(e: any) => !this.activeRoute.includes(link.path) && (e.target.style.color = 'var(--text-secondary)')}>{link.name}</a>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </aside>
+
+          {/* CONTENT */}
+          <main style="flex: 1; padding: 64px 80px 120px; max-width: 900px;">
+            {this.children}
+          </main>
+        </div>
+      </div>
+    );
+  }
+}

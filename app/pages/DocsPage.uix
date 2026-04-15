@@ -1,0 +1,57 @@
+import { SwissComponent } from '@kibologic/core';
+import { Shell } from '../components/Shell.uix';
+
+component DocsPage {
+  props = {
+    route: string
+  };
+
+  render() {
+    return (
+      <Shell activeRoute={this.route}>
+        {this.route === '#/docs' && (
+          <section>
+            <h1 style="font-size: 48px; font-weight: 900; letter-spacing: -0.05em; margin-bottom: 32px;">Core Concepts</h1>
+            <p style="font-size: 18px; line-height: 1.6; color: var(--text-secondary); margin-bottom: 48px;">
+              Swite is an engineering-first dev server built to handle the complexities of large-scale reactive applications. It replaces generic ESM resolution with a context-aware registry.
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 24px;">
+              {[
+                { t: 'Module Virtualization', d: 'Imports are resolved in-memory across the workspace before hitting the file system.' },
+                { t: 'Stateful HMR', d: 'Updates component logic while preserving the current Signal proxy state.' },
+                { t: 'ESM Synchronization', d: 'Guarantees that all modules are in the correct AST state before execution.' }
+              ].map(f => (
+                <div key={f.t} style="padding: 24px; background: var(--bg-surface); border: 1px solid var(--border); border-radius: 4px;">
+                   <h4 style="font-size: 16px; font-weight: 800; margin-bottom: 8px;">{f.t}</h4>
+                   <p style="font-size: 14px; color: var(--text-secondary);">{f.d}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {this.route === '#/why-swite' && (
+          <section>
+            <h1 style="font-size: 48px; font-weight: 900; letter-spacing: -0.05em; margin-bottom: 32px;">Why We Built This</h1>
+            <div style="font-size: 16px; line-height: 1.8; color: var(--text-secondary); display: flex; flex-direction: column; gap: 24px;">
+               <p>The decision to build Swite wasn't about performance for performance's sake. It was about **architectural integrity**.</p>
+               <p>Vite's HMR model assumes a clear separation between state and template (mostly for React/Vue). In SwissJS, the component *is* the state. Patching existing servers led to a "split-brain" state where the compiler and the runtime disagreed on the AST.</p>
+               <blockquote style="border-left: 4px solid var(--brand-accent); padding: 24px; background: var(--bg-surface); font-style: italic; color: var(--text-primary);">
+                 "We needed a server that didn't just serve files, but understood the reactive boundaries of a UIX project."
+               </blockquote>
+               <p>Swite implements the <strong>Symlink Registry Engine</strong>, allowing us to resolve hundreds of monorepo packages instantly without the <code>node_modules</code> lookup overhead. This changed everything for the Alpine ERP ecosystem.</p>
+            </div>
+          </section>
+        )}
+
+        {!['#/docs', '#/why-swite'].includes(this.route) && (
+          <div style="padding: 80px 0; text-align: center; border: 1px dashed var(--border); border-radius: 8px;">
+            <div style="font-size: 32px; margin-bottom: 16px;">🔍</div>
+            <h2 style="font-size: 18px; font-weight: 800; color: var(--text-primary);">Documentation Pending</h2>
+            <p style="font-size: 14px; color: var(--text-muted); margin-top: 8px;">The technical reference for this section is being finalized.</p>
+          </div>
+        )}
+      </Shell>
+    );
+  }
+}
