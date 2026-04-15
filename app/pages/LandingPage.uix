@@ -125,46 +125,45 @@ component LandingPage {
         {/* ── HERO ── */}
         <section style="padding: 120px 0 80px;">
           <div class="container" style="text-align: center;">
-            <div style="display: inline-block; padding: 6px 12px; background: var(--brand-accent-subtle); border-radius: 4px; font-size: 12px; font-weight: 700; color: var(--brand-accent); margin-bottom: 24px; border: 1px solid var(--brand-accent);">npm:@kibologic/swite@latest</div>
+            <div style="display: inline-block; padding: 6px 12px; background: var(--brand-accent-subtle); border-radius: 4px; font-size: 11px; font-weight: 800; color: var(--brand-accent); margin-bottom: 24px; border: 1px solid var(--brand-accent); letter-spacing: 0.05em;">COMPILER-AS-A-SERVICE</div>
             <h1 style="font-size: clamp(32px, 6vw, 64px); font-weight: 900; letter-spacing: -0.05em; line-height: 1.1; margin-bottom: 24px; color: var(--text-primary);">
-              Native DevServer &<br />
-              <span style="color: var(--brand-accent);">Compilation Engine</span>
+              Deterministic DevServer &<br />
+              <span style="color: var(--brand-accent);">Monorepo Registry</span>
             </h1>
-            <p style="font-size: 16px; color: var(--text-secondary); max-width: 600px; margin: 0 auto 48px; line-height: 1.6;">
-              The official, zero-configuration development pipeline replacing Vite natively for the SwissJS ecosystem.
+            <p style="font-size: 16px; color: var(--text-secondary); max-width: 640px; margin: 0 auto 48px; line-height: 1.6; font-family: inherit;">
+              Swite is a native compilation daemon replacing legacy bundlers with an integrated Symlink Registry and Context-Aware Import Mapper.
             </p>
             <div style="display: flex; gap: 16px; justify-content: center; margin-bottom: 80px;">
-              <button style="background: var(--brand-accent); color: #000; border: none; padding: 14px 24px; border-radius: 4px; font-size: 14px; font-weight: 700; cursor: pointer; transition: opacity 0.2s; font-family: inherit;" onmouseover={(e: any) => e.target.style.opacity = '0.8'} onmouseout={(e: any) => e.target.style.opacity = '1'}>Run Initialization &gt;_</button>
-              <button style="background: transparent; color: var(--text-primary); border: 1px solid var(--border); padding: 14px 24px; border-radius: 4px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit;">View AST Toolchains</button>
+              <button style="background: var(--brand-accent); color: #000; border: none; padding: 14px 28px; border-radius: 4px; font-size: 14px; font-weight: 700; cursor: pointer; transition: opacity 0.2s; font-family: inherit;" onmouseover={(e: any) => e.target.style.opacity = '0.8'} onmouseout={(e: any) => e.target.style.opacity = '1'}>Initialize Daemon &gt;_</button>
+              <button style="background: transparent; color: var(--text-primary); border: 1px solid var(--border); padding: 14px 28px; border-radius: 4px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit;">View Registry Spec</button>
             </div>
 
             {/* Hybrid Showcase */}
             <div class="grid-2" style="text-align: left; background: var(--bg-surface); border: 1px solid var(--border); border-radius: 4px; padding: 40px; align-items: stretch;">
               <div>
-                <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px;">Compiler Initialization</div>
+                <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px;">Context-Aware Resolution</div>
                 <div class="code-panel" style="padding: 24px; height: 100%;">
-                  <div style="white-space: pre; font-size: 13px; line-height: 1.6; color: #fff;">
-                    <span class="syntax-keyword">import</span> {"{"} SwiteServer {"}"} <span class="syntax-keyword">from</span> <span class="syntax-string">'@kibologic/swite'</span>;<br /><br />
-                    <span class="syntax-keyword">const</span> server = <span class="syntax-keyword">new</span> SwiteServer({"{"}<br />
-                    {"  "}root: <span class="syntax-string">'./app'</span>,<br />
-                    {"  "}port: <span class="syntax-type">6002</span>,<br />
-                    {"  "}hmr: <span class="syntax-keyword">true</span>,<br />
-                    {"}"});<br /><br />
-                    <span class="syntax-keyword">await</span> server.<span class="syntax-fn">start</span>();
+                  <div style="white-space: pre; font-size: 12px; line-height: 1.6; color: #fff;">
+                    <span class="syntax-keyword">import</span> {"{"} rewriteImports {"}"} <span class="syntax-keyword">from</span> <span class="syntax-string">'./import-rewriter'</span>;<br /><br />
+                    <span class="syntax-comment">// Dynamically maps .js specifiers to .uix boundaries</span><br />
+                    <span class="syntax-keyword">const</span> rewritten = <span class="syntax-keyword">await</span> <span class="syntax-fn">rewriteImports</span>(code, importer, resolver);<br /><br />
+                    <span class="syntax-comment">// Found 95 entries in Symlink Registry</span><br />
+                    <span style="color: var(--brand-accent);">[SWITE]</span> Resolved: <span class="syntax-string">"@kibologic/core"</span><br />
+                    {"  "}➜ <span style="color: var(--syntax-type);">/packages/core/src/index.ts</span>
                   </div>
                 </div>
               </div>
               <div style="display: flex; flex-direction: column; justify-content: center;">
-                <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px;">Active Daemon Output</div>
+                <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px;">Daemon Runtime Logs</div>
                 <div style="flex: 1; border: 1px dashed var(--border); border-radius: 4px; background: var(--code-bg); padding: 24px; color: #fff;">
                   <div style="font-size: 12px; line-height: 1.8;">
-                    <span style="color: var(--text-muted);">[14:22:01]</span> <span style="color: var(--brand-accent);">[SWITE]</span> AST Middleware Setup: 44.4ms<br />
-                    <span style="color: var(--text-muted);">[14:22:01]</span> <span style="color: var(--brand-accent);">[HMR]</span> WebSocket started on :44171<br />
-                    <span style="color: var(--text-muted);">[14:22:01]</span> <span style="color: var(--brand-accent);">[HMR]</span> Watching for file changes...<br />
-                    <span style="color: var(--text-muted);">[14:22:01]</span> <span style="color: var(--brand-accent);">[SWITE]</span> Startup: 144.012ms<br />
+                    <span style="color: var(--text-muted);">[SYSTEM]</span> <span style="color: var(--brand-accent);">[SWITE]</span> Symlink registry built: 95 entries<br />
+                    <span style="color: var(--text-muted);">[SYSTEM]</span> <span style="color: var(--brand-accent);">[SWITE]</span> Registry Built in 124.9ms<br />
+                    <span style="color: var(--text-muted);">[SYSTEM]</span> <span style="color: var(--brand-accent);">[HMR]</span> WebSocket: 39993 (Delta Engine)<br />
+                    <span style="color: var(--text-muted);">[SYSTEM]</span> <span style="color: var(--brand-accent);">[SWITE]</span> App Bootstrapped: 198.6ms<br />
                     <br />
-                    {"  "}➜ Local: <span style="color: #8be9fd;">http://localhost:6002/</span><br />
-                    {"  "}➜ Ready in 147ms
+                    {"  📄 "}Scanning app routes from <span style="color: var(--syntax-string);">/app/pages</span><br />
+                    {"  ✓ "}Found <span style="color: var(--brand-accent);">5 optimized routes</span>
                   </div>
                 </div>
               </div>
@@ -177,12 +176,12 @@ component LandingPage {
           <div class="container">
             <div class="grid-3">
               {[
-                { title: 'ES Module Lexing', desc: 'Real-time dependency mapping and dynamic import rewriting via es-module-lexer.', icon: '[1]' },
-                { title: 'AST Manipulation', desc: 'Native synchronous parsing and compilation of `.uix` boundaries without external plugins.', icon: '[2]' },
-                { title: 'Delta HMR Engine', desc: 'Microsecond WebSocket diffing applied via an embedded Express.js routing layer.', icon: '[3]' },
+                { title: 'Context-Aware Resolution', desc: 'Deep AST mapping that fixes relative .js specifiers to their native .ui/.uix boundaries at runtime.', icon: 'λ' },
+                { title: 'Symlink Registry Engine', desc: 'Monorepo-first resolver that maps hundreds of workspace packages without node_modules overhead.', icon: '∞' },
+                { title: 'Delta HMR Runtime', desc: 'Proprietary WebSocket diffing engine delivering sub-millisecond updates via Express middleware.', icon: 'Δ' },
               ].map((p: any) => (
                 <div key={p.title}>
-                  <div style="font-size: 16px; margin-bottom: 20px; color: var(--brand-accent); font-weight: 800;">{p.icon}</div>
+                  <div style="font-size: 20px; margin-bottom: 20px; color: var(--brand-accent); font-weight: 800;">{p.icon}</div>
                   <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.02em;">{p.title}</h3>
                   <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">{p.desc}</p>
                 </div>
@@ -195,17 +194,17 @@ component LandingPage {
         <section style="padding: 100px 0; background: var(--bg-surface);">
           <div class="container">
             <div style="text-align: left; margin-bottom: 60px;">
-              <h2 style="font-size: 32px; font-weight: 900; letter-spacing: -0.05em; margin-bottom: 16px;">Core Infrastructure Properties</h2>
-              <p style="font-size: 16px; color: var(--text-secondary);">Direct access to file system compilation routines.</p>
+              <h2 style="font-size: 32px; font-weight: 900; letter-spacing: -0.05em; margin-bottom: 16px;">Infrastructural Primitives</h2>
+              <p style="font-size: 16px; color: var(--text-secondary);">Direct-to-metal compilation routines for the SwissJS ecosystem.</p>
             </div>
             <div class="grid-3">
               {[
-                { t: 'Chokidar FSEvents', d: 'Sub-millisecond file system watching offloaded to native OS APIs.' },
-                { t: 'Implicit Router Generation', d: 'Automatically transpiles folder structures into synchronous FSR paths.' },
-                { t: 'Esbuild Offloading', d: 'Heavy TypeScript diagnostics and transform layers pushed to esbuild workers.' },
-                { t: 'Dynamic Import Maps', d: 'Injects browser-native module mapping on-the-fly to negate bundle generation overhead.' },
-                { t: 'SPA Fallback Traps', d: 'Automatic 404 hijacking directing unknown routes to entry DOM mounting layers.' },
-                { t: 'Kibologic ERP Standard', d: 'The singular runtime backing the Alpine ecosystem.' },
+                { t: 'es-module-lexer Analysis', d: 'High-speed static analysis of imports for predictive dependency mapping.' },
+                { t: 'Workspace Static Serving', d: 'Context-aware middleware that serves workspace modules directly from source.' },
+                { t: 'esbuild Diagnostic Bridge', d: 'Offloads complex TypeScript transforms to native esbuild worker processes.' },
+                { t: 'Dynamic Import Mapping', d: 'Automatically generates browser-native import maps to negate bundle overhead.' },
+                { t: 'SPA Catch-all Fallback', d: 'Deterministic routing that ensures all state-managed paths mount the core entry.' },
+                { t: 'Production Build-to-Asset', d: 'One-step compilation to static assets with optimized dependency flattening.' },
               ].map((item: any) => (
                 <div key={item.t} style="padding: 24px; border-radius: 4px; border: 1px solid var(--border); background: var(--bg-page);">
                   <h4 style="font-size: 16px; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.05em;">{item.t}</h4>
@@ -215,6 +214,7 @@ component LandingPage {
             </div>
           </div>
         </section>
+
 
         {/* ── FINAL CTA ── */}
         <section style="padding: 120px 0; border-top: 1px solid var(--border); text-align: center;">
