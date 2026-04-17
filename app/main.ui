@@ -2,17 +2,31 @@ import { mount, Signal, SwissComponent } from '@kibologic/core';
 import { LandingPage } from './pages/LandingPage.uix';
 import { DocsPage } from './pages/DocsPage.uix';
 
-const route$ = new Signal(window.location.hash || '#/');
+const route$ = new Signal(window.location.pathname);
 
-window.addEventListener('hashchange', () => {
-  route$.value = window.location.hash || '#/';
+window.addEventListener('popstate', () => {
+  route$.value = window.location.pathname;
   window.scrollTo(0, 0);
+});
+
+// Global internal link interceptor
+document.addEventListener('click', (e: any) => {
+  const link = e.target.closest('a');
+  if (link && link.href && link.href.startsWith(window.location.origin) && !link.target && !e.metaKey && !e.ctrlKey) {
+    const path = link.getAttribute('href');
+    if (path && path.startsWith('/') && !path.includes('#')) {
+      e.preventDefault();
+      history.pushState(null, '', path);
+      route$.value = path;
+      window.scrollTo(0, 0);
+    }
+  }
 });
 
 component Router {
   render() {
     const r = route$.value;
-    if (r === '#/' || r === '') return <LandingPage />;
+    if (r === '/' || r === '') return <LandingPage />;
     return <DocsPage route={r} />;
   }
 }

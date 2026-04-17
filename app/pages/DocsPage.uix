@@ -9,7 +9,7 @@ component DocsPage {
   render() {
     return (
       <Shell activeRoute={this.route}>
-        {this.route === '#/docs' && (
+        {this.route === '/docs' && (
           <section>
             <h1 style="font-size: 48px; font-weight: 900; letter-spacing: -0.05em; margin-bottom: 32px;">Core Concepts</h1>
             <p style="font-size: 18px; line-height: 1.6; color: var(--text-secondary); margin-bottom: 48px;">
@@ -30,7 +30,7 @@ component DocsPage {
           </section>
         )}
 
-        {this.route === '#/why-swite' && (
+        {this.route === '/why-swite' && (
           <section>
             <h1 style="font-size: 48px; font-weight: 900; letter-spacing: -0.05em; margin-bottom: 32px;">Why We Built This</h1>
             <div style="font-size: 16px; line-height: 1.8; color: var(--text-secondary); display: flex; flex-direction: column; gap: 24px;">
@@ -44,7 +44,7 @@ component DocsPage {
           </section>
         )}
 
-        {!['#/docs', '#/why-swite'].includes(this.route) && (
+        {!['/docs', '/why-swite'].includes(this.route) && (
           <div style="padding: 80px 0; text-align: center; border: 1px dashed var(--border); border-radius: 8px;">
             <div style="font-size: 32px; margin-bottom: 16px;">🔍</div>
             <h2 style="font-size: 18px; font-weight: 800; color: var(--text-primary);">Documentation Pending</h2>

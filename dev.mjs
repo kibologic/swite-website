@@ -32,5 +32,15 @@ server.app.use('/node_modules', (req, res, next) => {
   }
 });
 
+// SPA Fallback: Serve index.html for unknown routes
+server.app.use((req, res, next) => {
+  if (req.method === 'GET' && req.headers.accept?.includes('text/html')) {
+    res.setHeader('Content-Type', 'text/html');
+    res.end(readFileSync(path.join(__dirname, 'app/public/index.html'), 'utf-8'));
+    return;
+  }
+  next();
+});
+
 await server.start();
 console.log('[swite-website] running on http://localhost:6002');
