@@ -244,8 +244,8 @@ This is the live state for this site.
 - [x] `staging` branch created and pushed
 - [x] `development` branch created and pushed
 - [x] directive workflow adopted
-- [ ] current feature branch merged into `development`
-- [ ] merged feature branch cleared locally and remotely
+- [x] current feature branch merged into `development`
+- [x] merged feature branch cleared locally and remotely
 
 ## MODULE: Product Accuracy
 
@@ -320,3 +320,5 @@ If task state changes and this file is not updated, the repo memory is stale.
 * created and pushed `development` and `staging`
 * created `feature/directive-setup`
 * locked workflow rule that every feature branch must PR into `development` and be cleared before the next task
+* PR #1 merged into `development`
+* `feature/directive-setup` cleared locally and remotely after merge
