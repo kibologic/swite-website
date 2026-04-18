@@ -249,23 +249,23 @@ This is the live state for this site.
 
 ## MODULE: Product Accuracy
 
-- [ ] Swite positioning aligned with real codebase
-- [ ] boilerplate claims removed
-- [ ] real workflow and architecture reflected
-- [ ] unsupported claims removed
+- [x] Swite positioning aligned with real codebase
+- [x] boilerplate claims removed
+- [x] real workflow and architecture reflected
+- [x] unsupported claims removed
 
 ## MODULE: Information Architecture
 
-- [ ] landing page rewritten for developers
-- [ ] docs surface restructured
-- [ ] navigation aligned to real developer tasks
-- [ ] ecosystem relationship to SwissJS explained
+- [x] landing page rewritten for developers
+- [x] docs surface restructured
+- [x] navigation aligned to real developer tasks
+- [x] ecosystem relationship to SwissJS explained
 
 ## MODULE: Runtime Verification
 
-- [ ] site runs locally via `node dev.mjs`
-- [ ] key routes verified
-- [ ] content audited against `kibologic/swite`
+- [x] site runs locally via `node dev.mjs`
+- [x] key routes verified
+- [x] content audited against `kibologic/swite`
 
 ---
 
@@ -322,3 +322,6 @@ If task state changes and this file is not updated, the repo memory is stale.
 * locked workflow rule that every feature branch must PR into `development` and be cleared before the next task
 * PR #1 merged into `development`
 * `feature/directive-setup` cleared locally and remotely after merge
+* rebuilt the swite landing and docs surfaces around actual Swite codebase behavior
+* removed generic boilerplate positioning and replaced it with real CLI, config, HMR, resolver, plugin, and Alpine ERP Core usage references
+* verified the rewritten site locally on temporary port `6102`

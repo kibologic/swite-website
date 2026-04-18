@@ -10,68 +10,102 @@ component LandingPage {
     this.theme = saved || 'dark';
     document.documentElement.setAttribute('data-theme', this.theme);
 
-    if (!document.getElementById('swite-global-styles')) {
+    if (!document.getElementById('swite-landing-styles')) {
       const s = document.createElement('style');
-      s.id = 'swite-global-styles';
+      s.id = 'swite-landing-styles';
       s.textContent = `
         :root {
-          --color-amber-500: #F5A623;
-          --color-amber-600: #D48806;
-          --color-slate-900: #1A2035;
-          --brand-accent: var(--color-amber-500);
-          --brand-accent-hover: var(--color-amber-600);
-          --brand-accent-subtle: rgba(245, 166, 35, 0.1);
+          --sw-accent: #df8f19;
+          --sw-accent-strong: #b56e09;
+          --sw-accent-soft: rgba(223, 143, 25, 0.12);
         }
 
         [data-theme="light"] {
-          --bg-page: #FFFFFF;
-          --bg-surface: #F8F9FA;
-          --bg-inverse: #111111;
+          --bg-page: #fcfcfb;
+          --bg-panel: #f3f2ef;
+          --bg-code: #101010;
           --text-primary: #111111;
-          --text-secondary: #444444;
-          --text-muted: #888888;
-          --border: #EEEEEE;
-          --code-bg: #111111;
+          --text-secondary: #4d4d49;
+          --text-muted: #76746d;
+          --border: #ddd9d0;
+          --border-strong: #c6bfaf;
         }
 
         [data-theme="dark"] {
-          --bg-page: #000000;
-          --bg-surface: #111111;
-          --bg-inverse: #FFFFFF;
-          --text-primary: #FFFFFF;
-          --text-secondary: #AAAAAA;
-          --text-muted: #666666;
-          --border: #222222;
-          --code-bg: #0A0A0A;
+          --bg-page: #0d0d0c;
+          --bg-panel: #171715;
+          --bg-code: #0a0a09;
+          --text-primary: #f2f1ed;
+          --text-secondary: #bbb7b0;
+          --text-muted: #88837a;
+          --border: #292824;
+          --border-strong: #3a3833;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'JetBrains Mono', monospace; background: var(--bg-page); color: var(--text-primary); transition: background 0.3s; line-height: 1.5; }
-
-        /* Callout Primitives */
-        .callout { padding: 16px 20px; border-radius: 4px; margin: 24px 0; border-left: 4px solid; font-size: 13px; line-height: 1.6; }
-        .callout-info { background: rgba(74, 144, 217, 0.05); border-color: #4A90D9; color: var(--text-primary); }
-        .callout-tip { background: rgba(245, 166, 35, 0.05); border-color: var(--brand-accent); color: var(--text-primary); }
-        .callout-warning { background: rgba(255, 184, 108, 0.05); border-color: #ffb86c; color: var(--text-primary); }
-        .callout-danger { background: rgba(255, 85, 85, 0.05); border-color: #ff5555; color: var(--text-primary); }
-
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 64px; }
-        
-        @media (max-width: 860px) {
-          .grid-2 { grid-template-columns: 1fr; gap: 40px; }
+        * { box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; }
+        body {
+          background: var(--bg-page);
+          color: var(--text-primary);
+          font-family: "JetBrains Mono", "Fira Code", monospace;
+          line-height: 1.6;
         }
 
-        .bench-table { width: 100%; border-collapse: collapse; margin-top: 32px; font-size: 14px; }
-        .bench-table th { text-align: left; padding: 12px; border-bottom: 1px solid var(--border); color: var(--text-muted); font-size: 11px; text-transform: uppercase; }
-        .bench-table td { padding: 16px 12px; border-bottom: 1px solid var(--border); }
-        .bench-accent { color: var(--brand-accent); font-weight: 800; }
+        .sw-container { max-width: 1200px; margin: 0 auto; padding: 0 22px; }
+        .sw-link { color: var(--text-secondary); text-decoration: none; }
+        .sw-link:hover { color: var(--text-primary); }
+        .sw-button-primary {
+          background: var(--sw-accent);
+          color: #111;
+          border: none;
+          border-radius: 999px;
+          padding: 14px 18px;
+          font: inherit;
+          font-size: 13px;
+          font-weight: 800;
+          cursor: pointer;
+          text-decoration: none;
+        }
+        .sw-button-secondary {
+          background: transparent;
+          color: var(--text-primary);
+          border: 1px solid var(--border-strong);
+          border-radius: 999px;
+          padding: 14px 18px;
+          font: inherit;
+          font-size: 13px;
+          font-weight: 800;
+          cursor: pointer;
+          text-decoration: none;
+        }
+        .sw-card {
+          background: var(--bg-panel);
+          border: 1px solid var(--border);
+          border-radius: 12px;
+          padding: 24px;
+        }
+        .sw-inline-code {
+          font-family: inherit;
+          background: var(--bg-panel);
+          border: 1px solid var(--border);
+          border-radius: 4px;
+          padding: 2px 6px;
+          font-size: 0.92em;
+        }
+        .sw-code {
+          background: var(--bg-code);
+          color: #f6e7c4;
+          border: 1px solid var(--border);
+          border-radius: 12px;
+          padding: 18px 20px;
+          overflow-x: auto;
+          font-size: 13px;
+          line-height: 1.7;
+        }
 
-        .feature-card { padding: 32px; border: 1px solid var(--border); border-radius: 4px; transition: transform 0.2s; }
-        .feature-card:hover { transform: translateY(-4px); border-color: var(--brand-accent); }
-
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-        .cursor-blink { animation: blink 1s step-end infinite; }
+        @media (max-width: 960px) {
+          .sw-hero-grid, .sw-two-col, .sw-three-col { grid-template-columns: 1fr !important; }
+        }
       `;
       document.head.appendChild(s);
     }
@@ -81,119 +115,194 @@ component LandingPage {
     this.theme = this.theme === 'light' ? 'dark' : 'light';
     document.documentElement.setAttribute('data-theme', this.theme);
     localStorage.setItem('swite-theme', this.theme);
+    this.scheduleUpdate?.();
   }
 
   render() {
+    const workflow = [
+      'serve SwissJS source directly in development',
+      'compile .ui and .uix on request',
+      'resolve workspace packages and node_modules paths',
+      'inject HMR client and broadcast file updates',
+      'optionally orchestrate a Python service during dev'
+    ];
+
+    const architecture = [
+      {
+        title: 'CLI',
+        body: 'Swite exposes dev, start, and build. The CLI loads config, can auto-start Python services in dev, and then boots SwiteServer.'
+      },
+      {
+        title: 'SwiteServer',
+        body: 'The server wires middleware, resolver, HMR, file-router integration, and symlink registry setup before listening for requests.'
+      },
+      {
+        title: 'Middleware',
+        body: 'Handlers exist for .ui, .uix, .ts, .js, .mjs, node_modules assets, static files, HMR endpoints, and SPA fallback behavior.'
+      },
+      {
+        title: 'HMR',
+        body: 'The HMR engine opens a WebSocket server, watches the project tree, and decides whether an update is style, hot, or full reload.'
+      },
+      {
+        title: 'Resolution',
+        body: 'Swite handles workspace roots, sibling monorepos, symlink registries, node_modules lookup, and SwissJS-specific import rewriting.'
+      },
+      {
+        title: 'Python Services',
+        body: 'Typed services.python config allows dev-process startup, health checks, and proxy-oriented backend workflows in SwissJS apps.'
+      }
+    ];
+
     return (
-      <div style="min-height: 100vh;">
-        {/* NAV */}
-        <nav style="height: 64px; border-bottom: 1px solid var(--border); display: flex; align-items: center; background: var(--bg-page); position: sticky; top: 0; z-index: 1000;">
-          <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-            <div style="display: flex; align-items: center; gap: 12px; font-weight: 900; font-size: 20px;">
-               <div style="width: 24px; height: 24px; background: var(--brand-accent); clip-path: polygon(50% 0%, 0% 100%, 100% 100%);"></div>
-               swite
-            </div>
-            <div style="display: flex; gap: 32px; font-size: 13px; font-weight: 700;">
-               <a href="#" style="text-decoration: none; color: var(--text-secondary);">Docs</a>
-               <a href="#" style="text-decoration: none; color: var(--text-secondary);">Why Swite</a>
-               <a href="#" style="text-decoration: none; color: var(--text-secondary);">GitHub</a>
-               <button onclick={() => this.toggleTheme()} style="background: none; border: none; cursor: pointer; color: var(--text-secondary);">{this.theme === 'light' ? 'DARK' : 'LIGHT'}</button>
+      <div style="min-height: 100vh; background: var(--bg-page); color: var(--text-primary);">
+        <nav style="height: 64px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--bg-page); z-index: 50;">
+          <div class="sw-container" style="height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+            <a href="/" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text-primary); font-size: 18px; font-weight: 900;">
+              <span style="width: 18px; height: 18px; background: var(--sw-accent); display: inline-block; clip-path: polygon(50% 0%, 0% 100%, 100% 100%);"></span>
+              swite
+            </a>
+            <div style="display: flex; align-items: center; gap: 18px;">
+              <a href="/docs" class="sw-link" style="font-size: 12px; font-weight: 700;">Docs</a>
+              <a href="/why-swite" class="sw-link" style="font-size: 12px; font-weight: 700;">Why Swite</a>
+              <a href="https://github.com/kibologic/swite" target="_blank" class="sw-link" style="font-size: 12px; font-weight: 700;">GitHub</a>
+              <button
+                type="button"
+                onclick={() => this.toggleTheme()}
+                style="background: none; border: 1px solid var(--border); border-radius: 999px; color: var(--text-secondary); cursor: pointer; font: inherit; padding: 7px 12px; font-size: 11px; font-weight: 800;"
+              >
+                {this.theme === 'light' ? 'DARK' : 'LIGHT'}
+              </button>
             </div>
           </div>
         </nav>
 
-        {/* HERO */}
-        <header style="padding: 120px 0; border-bottom: 1px solid var(--border);">
-          <div class="container" style="text-align: center;">
-            <h1 style="font-size: clamp(40px, 10vw, 100px); font-weight: 900; letter-spacing: -0.06em; line-height: 0.9; margin-bottom: 32px;">
-               The dev server<br />
-               <span style="color: var(--brand-accent);">SwissJS deserves.</span>
-            </h1>
-            <p style="font-size: 18px; color: var(--text-secondary); max-width: 700px; margin: 0 auto 48px; font-weight: 500;">
-               Built where Vite stops. Native .uix compilation, context-aware module resolution, and Delta HMR that preserves component state.
-            </p>
-            <div style="display: flex; gap: 16px; justify-content: center; margin-bottom: 64px;">
-               <button style="background: var(--brand-accent); color: #000; border: none; padding: 18px 40px; border-radius: 4px; font-size: 16px; font-weight: 900; cursor: pointer; font-family: inherit;">Get Started</button>
-               <button style="background: var(--bg-surface); color: var(--text-primary); border: 1px solid var(--border); padding: 18px 40px; border-radius: 4px; font-size: 16px; font-weight: 900; cursor: pointer; font-family: inherit;">Read Analysis</button>
-            </div>
-            <div style="display: inline-flex; align-items: center; background: var(--bg-surface); padding: 14px 24px; border-radius: 4px; border: 1px solid var(--border); font-size: 14px;">
-               <span style="color: var(--brand-accent); margin-right: 12px; font-weight: 900;">$</span>
-               <span>npm install -D @kibologic/swite</span>
-               <span class="cursor-blink" style="margin-left: 2px; width: 8px; height: 1.2em; background: var(--brand-accent); display: inline-block; vertical-align: middle;"></span>
+        <header style="padding: 78px 0 54px; border-bottom: 1px solid var(--border);">
+          <div class="sw-container">
+            <div class="sw-hero-grid" style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 34px; align-items: start;">
+              <div>
+                <div style="display: inline-flex; align-items: center; gap: 8px; margin-bottom: 18px; padding: 6px 10px; border: 1px solid var(--border); border-radius: 999px; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.12em;">
+                  Developer Tooling
+                </div>
+                <h1 style="margin: 0 0 18px; font-size: clamp(42px, 7vw, 74px); line-height: 0.95; letter-spacing: -0.06em;">
+                  Swite is the SwissJS
+                  <br />
+                  dev server and runtime
+                  <br />
+                  toolchain.
+                </h1>
+                <p style="max-width: 760px; margin: 0 0 24px; font-size: 16px; color: var(--text-secondary);">
+                  It serves SwissJS applications directly from source, compiles <code class="sw-inline-code">.ui</code> and <code class="sw-inline-code">.uix</code>,
+                  resolves workspace imports, runs HMR, integrates file-based routing, and can coordinate backend services in development.
+                </p>
+                <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px;">
+                  <a href="/docs" class="sw-button-primary">Read the docs</a>
+                  <a href="/docs/config" class="sw-button-secondary">See configuration</a>
+                </div>
+                <div style="font-size: 12px; color: var(--text-muted);">
+                  Current usage reference: Alpine ERP Core uses <code class="sw-inline-code">SwiteServer</code>, <code class="sw-inline-code">rootDir</code>,
+                  proxy middleware, and <code class="sw-inline-code">services.python</code> in local development.
+                </div>
+              </div>
+
+              <div class="sw-card">
+                <div style="margin-bottom: 12px; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.14em;">Typical workflow</div>
+                <div class="sw-code" style="margin-bottom: 18px;">
+{`// swiss.config.ts
+import { defineConfig } from '@kibologic/swite';
+
+export default defineConfig({
+  server: { port: 3000 },
+  services: {
+    python: {
+      entry: './services/main.py',
+      port: 8000,
+      autoStart: true,
+      healthCheck: '/health'
+    }
+  }
+});`}
+                </div>
+                <ul style="margin: 0; padding-left: 18px; color: var(--text-secondary); font-size: 13px;">
+                  {workflow.map((item) => (
+                    <li key={item} style="margin-bottom: 8px;">{item}</li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
         </header>
 
-        {/* THE PROBLEM STATEMENT */}
-        <section style="padding: 100px 0; background: var(--bg-surface);">
-          <div class="container">
-            <div class="grid-2" style="align-items: center;">
-              <div>
-                <h2 style="font-size: 32px; font-weight: 900; letter-spacing: -0.04em; margin-bottom: 24px;">Engineering Narrative: Why Swite?</h2>
-                <div style="font-size: 15px; color: var(--text-secondary); line-height: 1.8; display: flex; flex-direction: column; gap: 20px;">
-                  <p>Vite is a masterpiece, but it was built for the Virtual DOM era. When we moved SwissJS to a pure Proxy-based Signal engine, we hit the ceiling of generic HMR.</p>
-                  <p>Generic dev servers treat `.uix` files as just another JS transform. Swite treats them as first-class architectural boundaries. We didn't want to patch Vite anymore. We wanted a server that knew exactly how a Swiss component thinks.</p>
-                  <ul style="list-style: none; display: flex; flex-direction: column; gap: 12px;">
-                    {['Zero-overhead Symlink resolution', 'AST-aware Context Rewriting', 'Synchronous ESM Pipeline'].map(t => (
-                      <li key={t} style="font-weight: 800; font-size: 13px; color: var(--text-primary);">[✓] {t}</li>
-                    ))}
-                  </ul>
-                </div>
+        <section style="padding: 52px 0; border-bottom: 1px solid var(--border);">
+          <div class="sw-container">
+            <div class="sw-two-col" style="display: grid; grid-template-columns: 1fr 1fr; gap: 22px;">
+              <div class="sw-card">
+                <div style="margin-bottom: 14px; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.14em;">What Swite is not</div>
+                <p style="margin: 0; color: var(--text-secondary); font-size: 14px;">
+                  Swite is not a generic marketing abstraction, and it is not just “Vite but ours.” It exists because SwissJS has its own file model,
+                  runtime assumptions, and monorepo requirements.
+                </p>
               </div>
-              <div>
-                <div style="background: var(--bg-page); border: 1px solid var(--border); padding: 40px; border-radius: 8px;">
-                  <h3 style="font-size: 12px; font-weight: 900; color: var(--text-muted); margin-bottom: 24px; text-transform: uppercase;">Benchmark Arguments</h3>
-                  <table class="bench-table">
-                    <thead>
-                      <tr><th>Metric</th><th>Vite</th><th>Swite</th></tr>
-                    </thead>
-                    <tbody>
-                      <tr><td>Cold Start</td><td>~410ms</td><td class="bench-accent">~38ms</td></tr>
-                      <tr><td>HMR Update</td><td>~80ms</td><td class="bench-accent">~8ms</td></tr>
-                      <tr><td>Full Build</td><td>~3.2s</td><td class="bench-accent">~0.9s</td></tr>
-                    </tbody>
-                  </table>
-                </div>
+              <div class="sw-card">
+                <div style="margin-bottom: 14px; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.14em;">What the site prioritizes</div>
+                <p style="margin: 0; color: var(--text-secondary); font-size: 14px;">
+                  Configuration, request flow, HMR behavior, module resolution, backend integration, and how Swite is used in real Kibologic applications.
+                </p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* FEATURES GRID */}
-        <section style="padding: 100px 0; border-top: 1px solid var(--border);">
-          <div class="container">
-            <div style="text-align: center; margin-bottom: 80px;">
-               <h2 style="font-size: 36px; font-weight: 900; letter-spacing: -0.05em;">Built for Scale.</h2>
+        <section style="padding: 64px 0; border-bottom: 1px solid var(--border);">
+          <div class="sw-container">
+            <div style="max-width: 760px; margin-bottom: 26px;">
+              <div style="margin-bottom: 10px; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.14em;">Architecture surface</div>
+              <h2 style="margin: 0 0 10px; font-size: 34px; letter-spacing: -0.05em;">What Swite actually contains</h2>
+              <p style="margin: 0; color: var(--text-secondary); font-size: 15px;">
+                These are the pieces exposed directly by the codebase today, not aspirational product cards.
+              </p>
             </div>
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
-               {[
-                 { t: 'Symlink Registry', d: 'Handle 100+ local packages with zero node_modules resolution overhead.' },
-                 { t: 'Context-Aware Rewriting', d: 'Raw .js imports resolved to local .ui/.uix reactive files at runtime.' },
-                 { t: 'Delta HMR', d: 'Hot swap components without losing your reactive Signal state.' },
-                 { t: 'ESBuild Cluster', d: 'Parallelize compilation across every available CPU thread.' },
-                 { t: 'Workspace Native', d: 'Deep understanding of pnpm/npm/yarn workspace protocols.' },
-                 { t: 'Zero Config', d: 'First-class SwissJS support out of the box. No plugins required.' }
-               ].map(f => (
-                 <div key={f.t} class="feature-card">
-                   <h4 style="font-size: 16px; font-weight: 900; margin-bottom: 12px; color: var(--brand-accent);">{f.t}</h4>
-                   <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">{f.d}</p>
-                 </div>
-               ))}
+
+            <div class="sw-three-col" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px;">
+              {architecture.map((item) => (
+                <div key={item.title} class="sw-card">
+                  <h3 style="margin: 0 0 10px; font-size: 16px;">{item.title}</h3>
+                  <p style="margin: 0; color: var(--text-secondary); font-size: 13px;">{item.body}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* FOOTER */}
-        <footer style="padding: 64px 0; border-top: 1px solid var(--border); background: var(--bg-surface); text-align: center;">
-          <div class="container">
-            <div style="font-size: 12px; color: var(--text-muted); font-weight: 700;">© 2026 KIBOLOGIC ENGINEERING. LICENSED UNDER MIT.</div>
-            <div style="margin-top: 24px; display: flex; justify-content: center; gap: 40px; font-size: 12px; font-weight: 900;">
-              <a href="#" style="color: var(--text-primary); text-decoration: none;">SWISSJS CORE</a>
-              <a href="#" style="color: var(--text-primary); text-decoration: none;">ALPINE CLOUD</a>
-              <a href="#" style="color: var(--text-primary); text-decoration: none;">GITHUB</a>
+        <section style="padding: 64px 0;">
+          <div class="sw-container">
+            <div class="sw-two-col" style="display: grid; grid-template-columns: 1fr 1fr; gap: 26px;">
+              <div>
+                <div style="margin-bottom: 10px; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.14em;">Used in practice</div>
+                <h2 style="margin: 0 0 16px; font-size: 30px; letter-spacing: -0.04em;">Alpine ERP Core is the best reference.</h2>
+                <p style="margin: 0 0 14px; color: var(--text-secondary); font-size: 14px;">
+                  Alpine ERP Core does not use Swite as a black box. Its <code class="sw-inline-code">apps/server/dev.mjs</code> composes
+                  <code class="sw-inline-code"> SwiteServer</code> with proxy middleware, service registry based ports, a monorepo <code class="sw-inline-code">rootDir</code>,
+                  and explicit <code class="sw-inline-code">node_modules</code> handling.
+                </p>
+                <p style="margin: 0; color: var(--text-secondary); font-size: 14px;">
+                  That is the model this site is built around: Swite as a programmable local application server for SwissJS, not as a generic bundler brand.
+                </p>
+              </div>
+
+              <div class="sw-card">
+                <div style="margin-bottom: 12px; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.14em;">Where to go next</div>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                  <a href="/docs/install" class="sw-link" style="font-size: 14px; font-weight: 700;">Installation and package setup</a>
+                  <a href="/docs/config" class="sw-link" style="font-size: 14px; font-weight: 700;">Typed configuration and services.python</a>
+                  <a href="/docs/resolution" class="sw-link" style="font-size: 14px; font-weight: 700;">Module resolution and monorepo behavior</a>
+                  <a href="/docs/hmr" class="sw-link" style="font-size: 14px; font-weight: 700;">HMR engine and client update flow</a>
+                  <a href="/docs/cli" class="sw-link" style="font-size: 14px; font-weight: 700;">CLI commands and execution modes</a>
+                </div>
+              </div>
             </div>
           </div>
-        </footer>
+        </section>
       </div>
     );
   }
