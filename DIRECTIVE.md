@@ -96,6 +96,19 @@ development -> feature/<task-name> -> development -> staging -> main
 
 ---
 
+## PR And Branch Cleanup Rule
+
+Every feature branch must be:
+
+* opened as a PR into `development`
+* merged into `development` before the next task begins
+* deleted remotely after merge
+* deleted locally after merge
+
+No stale feature branches should remain after a completed task.
+
+---
+
 ## Required Workflow
 
 ### Step 1 — Before Work
@@ -128,8 +141,11 @@ Every completed task must:
 * update feature tracking state
 * be committed
 * be pushed to remote
+* be opened as a PR into `development`
+* be merged into `development`
+* have the feature branch cleared locally and remotely
 
-No task is complete without push.
+No task is complete without push, PR, merge, and branch cleanup.
 
 ---
 
@@ -228,6 +244,8 @@ This is the live state for this site.
 - [x] `staging` branch created and pushed
 - [x] `development` branch created and pushed
 - [x] directive workflow adopted
+- [ ] current feature branch merged into `development`
+- [ ] merged feature branch cleared locally and remotely
 
 ## MODULE: Product Accuracy
 
@@ -291,3 +309,14 @@ This file must be read before each task and updated after each meaningful task i
 * new product truths are discovered
 
 If task state changes and this file is not updated, the repo memory is stale.
+
+---
+
+# 7. SESSION LOG
+
+### 2026-04-18
+
+* established repository directive
+* created and pushed `development` and `staging`
+* created `feature/directive-setup`
+* locked workflow rule that every feature branch must PR into `development` and be cleared before the next task
