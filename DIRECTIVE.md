@@ -325,3 +325,8 @@ If task state changes and this file is not updated, the repo memory is stale.
 * rebuilt the swite landing and docs surfaces around actual Swite codebase behavior
 * removed generic boilerplate positioning and replaced it with real CLI, config, HMR, resolver, plugin, and Alpine ERP Core usage references
 * verified the rewritten site locally on temporary port `6102`
+
+### 2026-04-24
+
+* styling revamp started (developer-first, less generic)
+* branch: `feature/swite-site-style-revamp`
