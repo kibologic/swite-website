@@ -4,8 +4,14 @@ import { DocsPage } from './pages/DocsPage.uix';
 
 const route$ = new Signal(window.location.pathname);
 
+const normalize = (p: string) => {
+  if (!p) return '/';
+  if (p.length > 1 && p.endsWith('/')) return p.slice(0, -1);
+  return p;
+};
+
 window.addEventListener('popstate', () => {
-  route$.value = window.location.pathname;
+  route$.value = normalize(window.location.pathname);
   window.scrollTo(0, 0);
 });
 
@@ -17,7 +23,7 @@ document.addEventListener('click', (e: any) => {
     if (path && path.startsWith('/') && !path.includes('#')) {
       e.preventDefault();
       history.pushState(null, '', path);
-      route$.value = path;
+      route$.value = normalize(path);
       window.scrollTo(0, 0);
     }
   }
@@ -25,7 +31,7 @@ document.addEventListener('click', (e: any) => {
 
 component Router {
   render() {
-    const r = route$.value;
+    const r = normalize(route$.value);
     if (r === '/' || r === '') return <LandingPage />;
     return <DocsPage route={r} />;
   }
