@@ -328,5 +328,6 @@ If task state changes and this file is not updated, the repo memory is stale.
 
 ### 2026-04-24
 
-* styling revamp started (developer-first, less generic)
+* styling revamp completed (developer-first, less generic)
 * branch: `feature/swite-site-style-revamp`
+* PR #5 merged into `development`, branch deleted
