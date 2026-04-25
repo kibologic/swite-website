@@ -196,6 +196,41 @@ export default defineConfig({
     );
   }
 
+  renderStatic() {
+    return this.renderSection(
+      'Static Files',
+      'Swite serves static assets alongside compiled SwissJS sources. In Kibologic repos this usually includes `public/`, selected `node_modules` assets, and optional `/lib` mounts.',
+      [
+        <div class="sw-doc-card" key="static-1">
+          <h3 style="margin: 0 0 8px; font-size: 16px;">publicDir</h3>
+          <p style="margin: 0; color: var(--text-secondary); font-size: 14px;">
+            Configure <code class="sw-inline-code">publicDir</code> to serve HTML/CSS/assets under the app root (commonly <code class="sw-inline-code">public</code>).
+          </p>
+        </div>,
+        <div class="sw-doc-card" key="static-2">
+          <h3 style="margin: 0 0 8px; font-size: 16px;">node_modules assets</h3>
+          <p style="margin: 0; color: var(--text-secondary); font-size: 14px;">
+            Some apps mount a safe subset of files from <code class="sw-inline-code">node_modules</code> (for example a prebuilt JS file required by an import map).
+          </p>
+        </div>,
+        <div class="sw-doc-note" key="static-3">
+          If CSS or browser assets 404, confirm whether the repo expects a <code class="sw-inline-code">/lib</code> directory mount or explicit middleware and ensure the expected paths exist in that workspace layout.
+        </div>,
+        <div class="sw-code-block" key="static-code">
+{`// dev.mjs (typical)
+import { SwiteServer } from '@kibologic/swite';
+
+const server = new SwiteServer({
+  root: new URL('./app', import.meta.url).pathname,
+  publicDir: 'public',
+});
+
+await server.start();`}
+        </div>
+      ]
+    );
+  }
+
   renderPlugins() {
     return this.renderSection(
       'Plugin Surface',
@@ -282,6 +317,7 @@ export default defineConfig({
     if (this.route === '/docs/cli') return this.renderCli();
     if (this.route === '/docs/hmr') return this.renderHmr();
     if (this.route === '/docs/resolution') return this.renderResolution();
+    if (this.route === '/docs/static') return this.renderStatic();
     if (this.route === '/docs/plugins') return this.renderPlugins();
     if (this.route === '/docs/errors') return this.renderErrors();
     if (this.route === '/why-swite') return this.renderWhySwite();

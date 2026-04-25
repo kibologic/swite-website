@@ -325,3 +325,8 @@ If task state changes and this file is not updated, the repo memory is stale.
 * rebuilt the swite landing and docs surfaces around actual Swite codebase behavior
 * removed generic boilerplate positioning and replaced it with real CLI, config, HMR, resolver, plugin, and Alpine ERP Core usage references
 * verified the rewritten site locally on temporary port `6102`
+
+### 2026-04-25
+
+* content accuracy pass started (add missing docs page(s) grounded in swite behavior; no styling changes)
+* branch: `feature/swite-content-accuracy`

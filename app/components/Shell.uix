@@ -148,6 +148,7 @@ component Shell {
         links: [
           { name: 'HMR', path: '/docs/hmr', note: 'WebSocket engine and update model' },
           { name: 'Module Resolution', path: '/docs/resolution', note: 'workspace and node_modules handling' },
+          { name: 'Static Files', path: '/docs/static', note: 'publicDir, node_modules, and /lib' },
           { name: 'Plugin Surface', path: '/docs/plugins', note: 'file-router and server integration' },
           { name: 'Troubleshooting', path: '/docs/errors', note: 'Common failure modes' }
         ]
