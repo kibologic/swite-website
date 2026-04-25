@@ -328,5 +328,6 @@ If task state changes and this file is not updated, the repo memory is stale.
 
 ### 2026-04-25
 
-* content accuracy pass started (add missing docs page(s) grounded in swite behavior; no styling changes)
+* content accuracy pass completed (add missing docs page(s) grounded in swite behavior; no styling changes)
 * branch: `feature/swite-content-accuracy`
+* PR #7 merged into `development`, branch deleted
