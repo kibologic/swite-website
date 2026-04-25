@@ -1,6 +1,11 @@
-import { mount, Signal, SwissComponent } from '@kibologic/core';
+import { mount, Signal, SwissComponent, createElement, Fragment } from '@kibologic/core';
 import { LandingPage } from './pages/LandingPage.uix';
 import { DocsPage } from './pages/DocsPage.uix';
+
+// Some compiled JSX paths reference `createElement`/`Fragment` as free identifiers.
+// Expose them so runtime code doesn’t fail with ReferenceError in the browser.
+globalThis.createElement = createElement;
+globalThis.Fragment = Fragment;
 
 const route$ = new Signal(window.location.pathname);
 
