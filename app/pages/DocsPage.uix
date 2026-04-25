@@ -3,178 +3,292 @@ import { Shell } from '../components/Shell.uix';
 
 component DocsPage {
   props = {
-    route: string,
+    route: string
   };
 
-  section(title: string, summary: string, body: unknown) {
+  renderSection(title: string, summary: string, body: unknown) {
     return (
-      <div>
-        <div class="sw-hero">
-          <h1 class="sw-h1">{title}</h1>
-          <p class="sw-lede">{summary}</p>
+      <section>
+        <div style="margin-bottom: 24px;">
+          <div style="margin-bottom: 10px; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.14em;">Swite Reference</div>
+          <h1 style="margin: 0 0 10px; font-size: 42px; letter-spacing: -0.05em;">{title}</h1>
+          <p style="margin: 0; color: var(--text-secondary); font-size: 15px; max-width: 820px;">{summary}</p>
         </div>
-        <div class="sw-content">{body}</div>
-      </div>
+        <div style="display: flex; flex-direction: column; gap: 18px;">{body}</div>
+      </section>
     );
   }
 
-  code(block: string) {
-    return (
-      <div class="sw-code">
-        <pre>{block}</pre>
-      </div>
-    );
-  }
-
-  intro() {
-    return this.section(
+  renderOverview() {
+    return this.renderSection(
       'Introduction',
-      'Swite is the development server and compiler host used by SwissJS applications across Kibologic.',
+      'Swite is the SwissJS development server and runtime toolchain. It serves source files directly in dev, compiles SwissJS file types on demand, manages HMR, and provides the local server surface SwissJS apps run on.',
       [
-        <div class="sw-grid" key="intro-grid">
-          <div class="sw-card">
-            <h3>What it does</h3>
-            <p>Serves and compiles <span class="sw-inline">.ui</span>/<span class="sw-inline">.uix</span>, wires static assets, runs HMR, and owns resolver behavior.</p>
-          </div>
-          <div class="sw-card">
-            <h3>Where truth lives</h3>
-            <p>Source of truth is <span class="sw-inline">kibologic/swite</span>. If this site and the repo disagree, the repo wins.</p>
-          </div>
+        <div class="sw-doc-card" key="overview-1">
+          <h3 style="margin: 0 0 10px; font-size: 16px;">Core exports</h3>
+          <p style="margin: 0; color: var(--text-secondary); font-size: 14px;">
+            The package exports <code class="sw-inline-code">SwiteServer</code>, <code class="sw-inline-code">defineConfig</code>,
+            builder APIs, resolver APIs, HMR, config loading, Python proxy helpers, and Python dev-service management.
+          </p>
         </div>,
+        <div class="sw-doc-card" key="overview-2">
+          <h3 style="margin: 0 0 10px; font-size: 16px;">File model</h3>
+          <p style="margin: 0; color: var(--text-secondary); font-size: 14px;">
+            Swite is aware of SwissJS source formats. It has dedicated handling for <code class="sw-inline-code">.ui</code> and
+            <code class="sw-inline-code"> .uix</code>, along with TypeScript, JavaScript, static assets, and node_modules-backed browser imports.
+          </p>
+        </div>,
+        <div class="sw-doc-note" key="overview-3">
+          The most grounded mental model is: Swite is the local application server SwissJS expects during development.
+        </div>
       ]
     );
   }
 
-  install() {
-    return this.section(
+  renderInstall() {
+    return this.renderSection(
       'Installation',
-      'Swite is consumed as an npm package in app repos and driven via a `dev.mjs` entry.',
+      'The current site reflects how Swite is used in Kibologic repos today: installed as a package, then used through a small Node entry like dev.mjs or through the swite CLI.',
       [
-        this.code(`# pnpm\npnpm add -D @kibologic/swite\n\n# dev\nnode dev.mjs\n`),
+        <div class="sw-code-block" key="install-code">
+{`npm install -D @kibologic/swite
+
+# then either:
+node dev.mjs
+
+# or:
+swite dev`}
+        </div>,
+        <div class="sw-doc-card" key="install-notes">
+          <h3 style="margin: 0 0 10px; font-size: 16px;">Typical repository shape</h3>
+          <p style="margin: 0 0 10px; color: var(--text-secondary); font-size: 14px;">
+            Kibologic sites use a small repo with an <code class="sw-inline-code">app/</code> directory, <code class="sw-inline-code">main.ui</code>,
+            page components, a public HTML shell, and a <code class="sw-inline-code">dev.mjs</code> file that instantiates <code class="sw-inline-code">SwiteServer</code>.
+          </p>
+          <p style="margin: 0; color: var(--text-secondary); font-size: 14px;">
+            Larger apps like Alpine ERP Core use the same server class, but compose it with monorepo-aware serving, proxy middleware, and service registry lookups.
+          </p>
+        </div>
       ]
     );
   }
 
-  config() {
-    return this.section(
+  renderConfig() {
+    return this.renderSection(
       'Configuration',
-      'Swite config focuses on app root, public assets, server port/host, and service wiring (e.g. python services) for integrated stacks.',
+      'Swite ships a typed config surface through defineConfig. The current source supports server config and an optional services.python block.',
       [
-        this.code(`// dev.mjs\nimport { SwiteServer } from '@kibologic/swite';\n\nconst server = new SwiteServer({\n  root: new URL('./app', import.meta.url).pathname,\n  publicDir: 'public',\n  port: 6002,\n  host: '0.0.0.0',\n  open: false,\n});\n\nawait server.start();\n`),
+        <div class="sw-code-block" key="config-code">
+{`import { defineConfig } from '@kibologic/swite';
+
+export default defineConfig({
+  server: {
+    port: 3000,
+    host: 'localhost'
+  },
+  services: {
+    python: {
+      entry: './services/main.py',
+      port: 8000,
+      autoStart: true,
+      healthCheck: '/health',
+      env: {}
+    }
+  }
+});`}
+        </div>,
+        <div class="sw-doc-card" key="config-fields">
+          <h3 style="margin: 0 0 10px; font-size: 16px;">Current typed fields</h3>
+          <ul style="margin: 0; padding-left: 18px; color: var(--text-secondary); font-size: 14px;">
+            <li><code class="sw-inline-code">server.port</code> and <code class="sw-inline-code">server.host</code></li>
+            <li><code class="sw-inline-code">services.python.entry</code></li>
+            <li><code class="sw-inline-code">services.python.port</code></li>
+            <li><code class="sw-inline-code">services.python.autoStart</code></li>
+            <li><code class="sw-inline-code">services.python.healthCheck</code></li>
+            <li><code class="sw-inline-code">services.python.env</code></li>
+          </ul>
+        </div>,
+        <div class="sw-doc-note" key="config-note">
+          Alpine ERP Core’s current <code class="sw-inline-code">swiss.config.ts</code> uses this Python service shape directly.
+        </div>
       ]
     );
   }
 
-  cli() {
-    return this.section(
+  renderCli() {
+    return this.renderSection(
       'CLI Commands',
-      'Swite exposes a CLI and a programmatic server. In Kibologic repos, `dev.mjs` is the standard entrypoint.',
+      'The CLI currently exposes three commands: dev, start, and build.',
       [
-        <div class="sw-grid" key="cli-grid">
-          <div class="sw-card">
-            <h3>dev</h3>
-            <p>Local dev server with HMR.</p>
-          </div>
-          <div class="sw-card">
-            <h3>build</h3>
-            <p>Build pipeline for production outputs (when used).</p>
-          </div>
+        <div class="sw-doc-card" key="cli-dev">
+          <h3 style="margin: 0 0 8px; font-size: 16px;">swite dev</h3>
+          <p style="margin: 0; color: var(--text-secondary); font-size: 14px;">
+            Loads config, optionally auto-starts the configured Python service, registers exit handlers, and starts SwiteServer in development mode.
+          </p>
         </div>,
+        <div class="sw-doc-card" key="cli-start">
+          <h3 style="margin: 0 0 8px; font-size: 16px;">swite start</h3>
+          <p style="margin: 0; color: var(--text-secondary); font-size: 14px;">
+            Loads config, switches Python proxying to production assumptions, warns when a Python service is configured but <code class="sw-inline-code">PYTHON_SERVICE_URL</code> is missing, and starts the server.
+          </p>
+        </div>,
+        <div class="sw-doc-card" key="cli-build">
+          <h3 style="margin: 0 0 8px; font-size: 16px;">swite build</h3>
+          <p style="margin: 0; color: var(--text-secondary); font-size: 14px;">
+            Uses <code class="sw-inline-code">SwiteBuilder</code> with an entry such as <code class="sw-inline-code">src/index.ui</code> and writes a built output directory.
+          </p>
+        </div>
       ]
     );
   }
 
-  hmr() {
-    return this.section(
+  renderHmr() {
+    return this.renderSection(
       'HMR',
-      'Swite runs a WebSocket HMR server; when the default port is busy, it chooses a free port and continues.',
+      'Swite runs its own HMR engine. It starts a WebSocket server, watches the project tree, and classifies file changes into update types.',
       [
-        <div class="sw-card" key="hmr-card">
-          <h3>Operational note</h3>
-          <p>In the Kibologic workspace we do not change allocated app ports; if a port is busy, kill the old process and restart.</p>
+        <div class="sw-doc-card" key="hmr-1">
+          <h3 style="margin: 0 0 8px; font-size: 16px;">Port handling</h3>
+          <p style="margin: 0; color: var(--text-secondary); font-size: 14px;">
+            The HMR engine defaults to port <code class="sw-inline-code">24678</code>. If that port is occupied, it searches for a free port and continues.
+          </p>
         </div>,
+        <div class="sw-doc-card" key="hmr-2">
+          <h3 style="margin: 0 0 8px; font-size: 16px;">File watching</h3>
+          <p style="margin: 0; color: var(--text-secondary); font-size: 14px;">
+            Swite watches the project root while ignoring <code class="sw-inline-code">node_modules</code>, <code class="sw-inline-code">.git</code>, and <code class="sw-inline-code">dist</code>.
+          </p>
+        </div>,
+        <div class="sw-doc-card" key="hmr-3">
+          <h3 style="margin: 0 0 8px; font-size: 16px;">Update behavior</h3>
+          <p style="margin: 0; color: var(--text-secondary); font-size: 14px;">
+            Style changes are hot-swapped, some module changes are treated as hot updates, and everything else falls back to full page reload. That behavior comes from Swite’s own HMR client script, not a borrowed frontend runtime.
+          </p>
+        </div>
       ]
     );
   }
 
-  resolution() {
-    return this.section(
+  renderResolution() {
+    return this.renderSection(
       'Module Resolution',
-      'Swite maps workspace and sibling `node_modules` layouts to stable browser import paths so apps can share packages during development.',
+      'Swite’s resolution logic is one of the reasons it exists. It has to serve SwissJS apps that span app roots, workspace packages, sibling monorepos, and node_modules-backed browser imports.',
       [
-        <div class="sw-card" key="res-card">
-          <h3>Why it matters</h3>
-          <p>Resolver behavior is foundational for multi-repo setups where packages live in sibling repos but are consumed in the browser.</p>
+        <div class="sw-doc-card" key="res-1">
+          <h3 style="margin: 0 0 8px; font-size: 16px;">Symlink registry</h3>
+          <p style="margin: 0; color: var(--text-secondary); font-size: 14px;">
+            Before the server handles requests, it builds a symlink registry so workspace package paths can map back to clean browser URLs.
+          </p>
         </div>,
+        <div class="sw-doc-card" key="res-2">
+          <h3 style="margin: 0 0 8px; font-size: 16px;">Workspace and sibling repo search</h3>
+          <p style="margin: 0; color: var(--text-secondary); font-size: 14px;">
+            Swite checks local app node_modules, parent package node_modules, workspace roots, and detected sibling monorepos such as swiss-lib when resolving imports.
+          </p>
+        </div>,
+        <div class="sw-doc-card" key="res-3">
+          <h3 style="margin: 0 0 8px; font-size: 16px;">SwissJS-specific import rewriting</h3>
+          <p style="margin: 0; color: var(--text-secondary); font-size: 14px;">
+            The import rewriter preserves and repairs SwissJS file extensions, especially around <code class="sw-inline-code">.ui</code> and <code class="sw-inline-code">.uix</code>, so browser-facing module paths still point at valid SwissJS source.
+          </p>
+        </div>
       ]
     );
   }
 
-  plugins() {
-    return this.section(
+  renderPlugins() {
+    return this.renderSection(
       'Plugin Surface',
-      'Swite integrates with SwissJS plugin surfaces (for example file-router patterns) to deliver predictable app structure.',
+      'Swite is already wired to first-party SwissJS plugins, especially file-router integration.',
       [
-        <div class="sw-card" key="pl-card">
-          <h3>Rule</h3>
-          <p>If an app needs a tooling change, we fix upstream in <span class="sw-inline">kibologic/swite</span> (not via app workarounds or hot-editing node_modules).</p>
+        <div class="sw-doc-card" key="plugins-1">
+          <h3 style="margin: 0 0 8px; font-size: 16px;">File router</h3>
+          <p style="margin: 0; color: var(--text-secondary); font-size: 14px;">
+            The middleware setup boots a file-router scanner, tracks discovered routes, and watches route files for change notifications.
+          </p>
         </div>,
+        <div class="sw-doc-card" key="plugins-2">
+          <h3 style="margin: 0 0 8px; font-size: 16px;">Route-aware HMR surface</h3>
+          <p style="margin: 0; color: var(--text-secondary); font-size: 14px;">
+            HMR routes are part of the server setup, and route metadata is exposed so the dev surface can reason about current route files.
+          </p>
+        </div>
       ]
     );
   }
 
-  errors() {
-    return this.section(
+  renderErrors() {
+    return this.renderSection(
       'Troubleshooting',
-      'Common failure modes are usually port conflicts, resolver mismatches, or environment overrides.',
+      'Most Swite issues in practice come from resolution mismatches, missing static asset paths, or backend service assumptions.',
       [
-        <div class="sw-grid" key="err-grid">
-          <div class="sw-card">
-            <h3>Port in use</h3>
-            <p>Kill the running process and restart. Don’t drift from registry-allocated ports.</p>
-          </div>
-          <div class="sw-card">
-            <h3>Env override</h3>
-            <p>Shell env vars override <span class="sw-inline">.env</span> loaders; check for whitespace/newlines in URLs when debugging auth issues.</p>
-          </div>
+        <div class="sw-doc-card" key="err-1">
+          <h3 style="margin: 0 0 8px; font-size: 16px;">Bare imports reaching the browser</h3>
+          <p style="margin: 0; color: var(--text-secondary); font-size: 14px;">
+            When bare specifiers are not rewritten to browser-valid URLs, the app fails in the browser. Swite’s import rewriting docs exist because this is a real failure mode.
+          </p>
         </div>,
+        <div class="sw-doc-card" key="err-2">
+          <h3 style="margin: 0 0 8px; font-size: 16px;">Missing lib or static asset paths</h3>
+          <p style="margin: 0; color: var(--text-secondary); font-size: 14px;">
+            Some repos still rely on explicit static middleware because missing paths can cause CSS or browser module requests to fail.
+          </p>
+        </div>,
+        <div class="sw-doc-card" key="err-3">
+          <h3 style="margin: 0 0 8px; font-size: 16px;">Python service assumptions</h3>
+          <p style="margin: 0; color: var(--text-secondary); font-size: 14px;">
+            If <code class="sw-inline-code">services.python</code> is configured, dev and start modes have explicit expectations around health checks and <code class="sw-inline-code">PYTHON_SERVICE_URL</code>.
+          </p>
+        </div>
       ]
     );
   }
 
-  why() {
-    return this.section(
+  renderWhySwite() {
+    return this.renderSection(
       'Why Swite',
-      'Swite exists because SwissJS needed a dev server and build surface that understands SwissJS file formats and Kibologic workspace constraints.',
+      'Kibologic built Swite because SwissJS has its own source model, runtime assumptions, and monorepo behavior. A generic dev server is not enough once the framework owns .ui, .uix, runtime-aware resolution, and local backend orchestration.',
       [
-        <div class="sw-card" key="why-card">
-          <h3>Not “just Vite”</h3>
-          <p>Swite’s core value is owning the SwissJS compilation + resolver model in a way that matches how Kibologic repos are structured.</p>
+        <div class="sw-doc-card" key="why-1">
+          <p style="margin: 0; color: var(--text-secondary); font-size: 14px;">
+            The right framing is not “faster than X” or “better marketing story than Y.” The right framing is architectural fit: Swite exists because SwissJS applications need a server that understands their files, routing, import graph, and development environment.
+          </p>
         </div>,
+        <div class="sw-doc-note" key="why-2">
+          Alpine ERP Core is the strongest evidence. It uses Swite as the server surface that fronts a SwissJS app while coordinating Python services, proxies, workspace modules, and local runtime behavior.
+        </div>
       ]
     );
   }
 
-  content() {
-    const r = this.props.route;
-    if (r === '/docs' || r === '/docs/') return this.intro();
-    if (r === '/docs/install') return this.install();
-    if (r === '/docs/config') return this.config();
-    if (r === '/docs/cli') return this.cli();
-    if (r === '/docs/hmr') return this.hmr();
-    if (r === '/docs/resolution') return this.resolution();
-    if (r === '/docs/plugins') return this.plugins();
-    if (r === '/docs/errors') return this.errors();
-    if (r === '/why-swite') return this.why();
-    return this.section('Not found', 'This route is outside the current Swite docs surface.', []);
+  renderNotFound() {
+    return (
+      <section>
+        <div style="margin-bottom: 24px;">
+          <div style="margin-bottom: 10px; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.14em;">Swite Reference</div>
+          <h1 style="margin: 0 0 10px; font-size: 42px; letter-spacing: -0.05em;">Route not documented yet</h1>
+          <p style="margin: 0; color: var(--text-secondary); font-size: 15px; max-width: 760px;">
+            This route is outside the current Swite reference set. Use the sidebar to navigate to the sections backed by the current codebase.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
+  renderContent() {
+    if (this.route === '/docs' || this.route === '/docs/') return this.renderOverview();
+    if (this.route === '/docs/install') return this.renderInstall();
+    if (this.route === '/docs/config') return this.renderConfig();
+    if (this.route === '/docs/cli') return this.renderCli();
+    if (this.route === '/docs/hmr') return this.renderHmr();
+    if (this.route === '/docs/resolution') return this.renderResolution();
+    if (this.route === '/docs/plugins') return this.renderPlugins();
+    if (this.route === '/docs/errors') return this.renderErrors();
+    if (this.route === '/why-swite') return this.renderWhySwite();
+    return this.renderNotFound();
   }
 
   render() {
-    return (
-      <Shell activeRoute={this.props.route}>
-        {this.content()}
-      </Shell>
-    );
+    return <Shell activeRoute={this.route}>{this.renderContent()}</Shell>;
   }
 }
-
