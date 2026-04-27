@@ -3,12 +3,10 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { existsSync, readFileSync } from 'node:fs';
 import { SwiteServer } from '@kibologic/swite';
-import { resolvePort } from '../registry/resolve.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const DEFAULT_PORT = resolvePort('swite-website', 'frontend_port', 'development', 6002);
-const PORT = parseInt(process.env.PORT || String(DEFAULT_PORT), 10);
+const PORT = parseInt(process.env.PORT || '6002', 10);
 
 const server = new SwiteServer({
   root: path.resolve(__dirname, 'app'),
