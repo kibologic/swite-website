@@ -1,0 +1,221 @@
+import { SwissComponent } from '@kibologic/core';
+
+component Hero {
+  props = {};
+
+  state { let copied: boolean = false; }
+
+  mounted() {
+    if (!document.getElementById('swite-hero-styles')) {
+      const s = document.createElement('style');
+      s.id = 'swite-hero-styles';
+      s.textContent = `
+        .hero {
+          padding: 100px 0 80px;
+        }
+        .hero-inner {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 24px;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 64px;
+          align-items: center;
+        }
+        .hero-badge {
+          display: inline-block;
+          padding: 5px 10px;
+          background: rgba(80,250,123,0.1);
+          border: 1px solid var(--brand-accent);
+          border-radius: 4px;
+          font-size: 11px;
+          font-weight: 700;
+          color: var(--brand-accent);
+          letter-spacing: 0.04em;
+          margin-bottom: 20px;
+        }
+        .hero-h1 {
+          font-size: clamp(28px, 4vw, 52px);
+          font-weight: 900;
+          letter-spacing: -0.05em;
+          line-height: 1.1;
+          margin-bottom: 20px;
+          color: var(--text-primary);
+        }
+        .hero-h1-accent { color: var(--brand-accent); }
+        .hero-sub {
+          font-size: 15px;
+          color: var(--text-secondary);
+          line-height: 1.7;
+          margin-bottom: 32px;
+          max-width: 440px;
+        }
+        .hero-install {
+          display: flex;
+          align-items: center;
+          background: var(--bg-surface);
+          border: 1px solid var(--border);
+          border-radius: 4px;
+          padding: 12px 16px;
+          margin-bottom: 28px;
+          gap: 12px;
+        }
+        .hero-install-cmd {
+          flex: 1;
+          font-size: 13px;
+          color: var(--brand-accent);
+          font-family: inherit;
+        }
+        .hero-copy-btn {
+          background: none;
+          border: 1px solid var(--border);
+          cursor: pointer;
+          color: var(--text-muted);
+          font-size: 11px;
+          font-weight: 700;
+          font-family: inherit;
+          padding: 4px 10px;
+          border-radius: 3px;
+          letter-spacing: 0.04em;
+          transition: border-color 0.2s, color 0.2s;
+          white-space: nowrap;
+        }
+        .hero-copy-btn:hover {
+          border-color: var(--brand-accent);
+          color: var(--brand-accent);
+        }
+        .hero-ctas {
+          display: flex;
+          gap: 12px;
+          flex-wrap: wrap;
+        }
+        .hero-cta-primary {
+          background: var(--brand-accent);
+          color: #000;
+          border: none;
+          padding: 12px 22px;
+          border-radius: 4px;
+          font-size: 14px;
+          font-weight: 700;
+          cursor: pointer;
+          font-family: inherit;
+          text-decoration: none;
+          display: inline-block;
+          transition: opacity 0.2s;
+        }
+        .hero-cta-primary:hover { opacity: 0.85; }
+        .hero-cta-secondary {
+          background: transparent;
+          color: var(--text-primary);
+          border: 1px solid var(--border);
+          padding: 12px 22px;
+          border-radius: 4px;
+          font-size: 14px;
+          font-weight: 700;
+          cursor: pointer;
+          font-family: inherit;
+          text-decoration: none;
+          display: inline-block;
+          transition: border-color 0.2s;
+        }
+        .hero-cta-secondary:hover { border-color: var(--text-secondary); }
+        .hero-terminal {
+          background: #0a0a0a;
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 6px;
+          overflow: hidden;
+          box-shadow: 0 24px 60px rgba(0,0,0,0.4);
+        }
+        .hero-terminal-bar {
+          background: #1a1a1a;
+          padding: 10px 16px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .hero-terminal-dot {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+        }
+        .hero-terminal-title {
+          font-size: 11px;
+          color: #555;
+          margin-left: 8px;
+          font-family: inherit;
+        }
+        .hero-terminal-body {
+          padding: 20px 20px 24px;
+          font-size: 12px;
+          line-height: 1.9;
+          color: #ccc;
+        }
+        .hero-terminal-green { color: #50fa7b; }
+        .hero-terminal-blue { color: #8be9fd; }
+        .hero-terminal-dim { color: #555; }
+        @media (max-width: 860px) {
+          .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+          .hero { padding: 60px 0 48px; }
+        }
+      `;
+      document.head.appendChild(s);
+    }
+  }
+
+  _copyInstall() {
+    navigator.clipboard.writeText('npm create swissjs@latest my-app').then(() => {
+      this.copied = true;
+      setTimeout(() => { this.copied = false; }, 2000);
+    });
+  }
+
+  render() {
+    return (
+      <section class="hero">
+        <div class="hero-inner">
+          <div>
+            <div class="hero-badge">@swissjs/swite@latest</div>
+            <h1 class="hero-h1">
+              Zero-config dev server<br />
+              for <span class="hero-h1-accent">SwissJS</span>
+            </h1>
+            <p class="hero-sub">
+              The official compilation engine and HMR server powering the SwissJS ecosystem.
+            </p>
+            <div class="hero-install">
+              <span class="hero-install-cmd">npm create swissjs@latest my-app</span>
+              <button class="hero-copy-btn" onclick={() => this._copyInstall()}>
+                {this.copied ? 'COPIED!' : 'COPY'}
+              </button>
+            </div>
+            <div class="hero-ctas">
+              <a href="/docs" class="hero-cta-primary">Get Started →</a>
+              <a href="https://github.com/kibologic/swite" target="_blank" class="hero-cta-secondary">View on GitHub</a>
+            </div>
+          </div>
+          <div>
+            <div class="hero-terminal">
+              <div class="hero-terminal-bar">
+                <div class="hero-terminal-dot" style="background: #ff5f56;"></div>
+                <div class="hero-terminal-dot" style="background: #ffbd2e;"></div>
+                <div class="hero-terminal-dot" style="background: #27c93f;"></div>
+                <span class="hero-terminal-title">swite — dev</span>
+              </div>
+              <div class="hero-terminal-body">
+                <span class="hero-terminal-dim">$</span> <span class="hero-terminal-green">pnpm dev</span><br />
+                <span class="hero-terminal-green">[SWITE]</span> AST Middleware Setup: <span class="hero-terminal-blue">44.4ms</span><br />
+                <span class="hero-terminal-green">[HMR]</span> WebSocket started on <span class="hero-terminal-blue">:44171</span><br />
+                <span class="hero-terminal-green">[HMR]</span> Watching for file changes...<br />
+                <span class="hero-terminal-green">[SWITE]</span> Startup: <span class="hero-terminal-blue">144.012ms</span><br />
+                <br />
+                {"  "}➜{"  "}Local:{"   "}<span class="hero-terminal-blue">http://localhost:5000/</span><br />
+                {"  "}➜{"  "}Ready in <span class="hero-terminal-green">147ms</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+}

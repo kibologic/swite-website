@@ -6,12 +6,10 @@ import { SwiteServer } from '@kibologic/swite';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const PORT = parseInt(process.env.PORT || '6002', 10);
-
 const server = new SwiteServer({
   root: path.resolve(__dirname, 'app'),
   publicDir: 'public',
-  port: PORT,
+  port: parseInt(process.env.PORT || '6002', 10),
   host: '0.0.0.0',
   open: false,
 });
@@ -34,7 +32,7 @@ server.app.use('/node_modules', (req, res, next) => {
   }
 });
 
-// SPA Fallback: Serve index.html for unknown routes
+// SPA fallback — serve index.html for all HTML requests (enables client-side routing)
 server.app.use((req, res, next) => {
   if (req.method === 'GET' && req.headers.accept?.includes('text/html')) {
     res.setHeader('Content-Type', 'text/html');
@@ -45,4 +43,4 @@ server.app.use((req, res, next) => {
 });
 
 await server.start();
-console.log(`[swite-website] running on http://localhost:${PORT}`);
+console.log('[swite-website] running on http://localhost:6002');
