@@ -1,0 +1,179 @@
+import { SwissComponent } from '@kibologic/core';
+
+component Navbar {
+  props = {
+    theme: 'dark' as 'light' | 'dark',
+    onToggleTheme: null as any,
+  };
+
+  state { let mobileOpen: boolean = false; }
+
+  mounted() {
+    if (!document.getElementById('swite-navbar-styles')) {
+      const s = document.createElement('style');
+      s.id = 'swite-navbar-styles';
+      s.textContent = `
+        .navbar {
+          height: 60px;
+          position: sticky;
+          top: 0;
+          z-index: 1000;
+          background: var(--bg-page);
+          border-bottom: 1px solid var(--border);
+          backdrop-filter: blur(8px);
+        }
+        .navbar-inner {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 24px;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .navbar-logo {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-weight: 900;
+          font-size: 18px;
+          letter-spacing: -0.05em;
+          color: var(--text-primary);
+          text-decoration: none;
+        }
+        .navbar-logo-box {
+          width: 22px;
+          height: 22px;
+          background: var(--brand-accent);
+          border-radius: 3px;
+        }
+        .navbar-links {
+          display: flex;
+          gap: 28px;
+          align-items: center;
+        }
+        .navbar-link {
+          font-size: 13px;
+          font-weight: 500;
+          color: var(--text-secondary);
+          text-decoration: none;
+          transition: color 0.2s;
+          font-family: inherit;
+        }
+        .navbar-link:hover { color: var(--text-primary); }
+        .navbar-right {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+        .navbar-theme-btn {
+          background: none;
+          border: 1px solid var(--border);
+          cursor: pointer;
+          color: var(--text-secondary);
+          font-size: 11px;
+          font-weight: 700;
+          font-family: inherit;
+          padding: 5px 10px;
+          border-radius: 4px;
+          letter-spacing: 0.05em;
+          transition: border-color 0.2s, color 0.2s;
+        }
+        .navbar-theme-btn:hover {
+          border-color: var(--brand-accent);
+          color: var(--brand-accent);
+        }
+        .navbar-gh-btn {
+          font-size: 13px;
+          font-weight: 700;
+          color: #000;
+          background: var(--brand-accent);
+          padding: 7px 14px;
+          border-radius: 4px;
+          text-decoration: none;
+          transition: opacity 0.2s;
+          font-family: inherit;
+        }
+        .navbar-gh-btn:hover { opacity: 0.85; }
+        .navbar-hamburger {
+          display: none;
+          background: none;
+          border: 1px solid var(--border);
+          cursor: pointer;
+          color: var(--text-primary);
+          padding: 6px 10px;
+          border-radius: 4px;
+          font-size: 16px;
+          font-family: inherit;
+        }
+        .navbar-drawer {
+          display: none;
+          flex-direction: column;
+          background: var(--bg-surface);
+          border-bottom: 1px solid var(--border);
+          padding: 16px 24px;
+          gap: 16px;
+        }
+        .navbar-drawer.open { display: flex; }
+        .navbar-drawer-link {
+          font-size: 14px;
+          font-weight: 500;
+          color: var(--text-secondary);
+          text-decoration: none;
+          padding: 8px 0;
+          border-bottom: 1px solid var(--border);
+        }
+        .navbar-drawer-link:hover { color: var(--text-primary); }
+        @media (max-width: 768px) {
+          .navbar-links { display: none; }
+          .navbar-hamburger { display: flex; align-items: center; justify-content: center; }
+        }
+      `;
+      document.head.appendChild(s);
+    }
+  }
+
+  _toggleMobile() {
+    this.mobileOpen = !this.mobileOpen;
+  }
+
+  _toggleTheme() {
+    if (this.props.onToggleTheme) this.props.onToggleTheme();
+  }
+
+  render() {
+    return (
+      <div>
+        <nav class="navbar">
+          <div class="navbar-inner">
+            <a href="/" class="navbar-logo">
+              <div class="navbar-logo-box"></div>
+              Swite
+            </a>
+            <div class="navbar-links">
+              <a href="/docs" class="navbar-link">Docs</a>
+              <a href="#cli" class="navbar-link">CLI Reference</a>
+              <a href="https://github.com/kibologic/swite" target="_blank" class="navbar-link">GitHub</a>
+            </div>
+            <div class="navbar-right">
+              <button class="navbar-theme-btn" onclick={() => this._toggleTheme()}>
+                {this.props.theme === 'light' ? 'DARK' : 'LIGHT'}
+              </button>
+              <a href="https://github.com/kibologic/swite" target="_blank" class="navbar-gh-btn">GitHub</a>
+              <button class="navbar-hamburger" onclick={() => this._toggleMobile()}>
+                {this.mobileOpen ? '✕' : '☰'}
+              </button>
+            </div>
+          </div>
+        </nav>
+        {this.mobileOpen ? (
+          <div class="navbar-drawer open">
+            <a href="/docs" class="navbar-drawer-link" onclick={() => this._toggleMobile()}>Docs</a>
+            <a href="#cli" class="navbar-drawer-link" onclick={() => this._toggleMobile()}>CLI Reference</a>
+            <a href="https://github.com/kibologic/swite" target="_blank" class="navbar-drawer-link">GitHub</a>
+          </div>
+        ) : null}
+      </div>
+    );
+  }
+}

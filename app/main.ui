@@ -1,6 +1,9 @@
-import { mount, Signal, SwissComponent } from '@kibologic/core';
+import { mount, Signal, createElement, Fragment } from '@kibologic/core';
 import { LandingPage } from './pages/LandingPage.uix';
 import { DocsPage } from './pages/DocsPage.uix';
+
+globalThis.createElement = createElement;
+globalThis.Fragment = Fragment;
 
 const route$ = new Signal(window.location.pathname);
 
@@ -9,7 +12,6 @@ window.addEventListener('popstate', () => {
   window.scrollTo(0, 0);
 });
 
-// Global internal link interceptor
 document.addEventListener('click', (e: any) => {
   const link = e.target.closest('a');
   if (link && link.href && link.href.startsWith(window.location.origin) && !link.target && !e.metaKey && !e.ctrlKey) {
@@ -26,8 +28,8 @@ document.addEventListener('click', (e: any) => {
 component Router {
   render() {
     const r = route$.value;
-    if (r === '/' || r === '') return <LandingPage />;
-    return <DocsPage route={r} />;
+    if (r.startsWith('/docs')) return <DocsPage route={r} />;
+    return <LandingPage />;
   }
 }
 

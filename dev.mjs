@@ -32,7 +32,7 @@ server.app.use('/node_modules', (req, res, next) => {
   }
 });
 
-// SPA Fallback: Serve index.html for unknown routes
+// SPA fallback — serve index.html for all HTML requests (enables client-side routing)
 server.app.use((req, res, next) => {
   if (req.method === 'GET' && req.headers.accept?.includes('text/html')) {
     res.setHeader('Content-Type', 'text/html');

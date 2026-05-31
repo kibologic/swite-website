@@ -1,4 +1,9 @@
 import { SwissComponent } from '@kibologic/core';
+import { Navbar } from '../components/Navbar.uix';
+import { Footer } from '../components/Footer.uix';
+import { Hero } from '../components/home/Hero.uix';
+import { Features } from '../components/home/Features.uix';
+import { QuickStart } from '../components/home/QuickStart.uix';
 
 component LandingPage {
   props = {};
@@ -15,69 +20,50 @@ component LandingPage {
       s.id = 'swite-global-styles';
       s.textContent = `
         :root {
-          --color-amber-500: #F5A623;
-          --color-amber-600: #D48806;
+          --color-slate-50:  #F7F8FA;
+          --color-slate-100: #ECEEF2;
+          --color-slate-200: #D4D8E0;
+          --color-slate-500: #7A8499;
+          --color-slate-700: #3D4559;
           --color-slate-900: #1A2035;
-          --brand-accent: var(--color-amber-500);
-          --brand-accent-hover: var(--color-amber-600);
-          --brand-accent-subtle: rgba(245, 166, 35, 0.1);
+          --brand-accent: #50fa7b;
+          --brand-accent-hover: #3ddc67;
+          --brand-accent-subtle: rgba(80, 250, 123, 0.1);
         }
-
         [data-theme="light"] {
           --bg-page: #FFFFFF;
-          --bg-surface: #F8F9FA;
-          --bg-inverse: #111111;
-          --text-primary: #111111;
-          --text-secondary: #444444;
-          --text-muted: #888888;
-          --border: #EEEEEE;
-          --code-bg: #111111;
+          --bg-surface: var(--color-slate-50);
+          --bg-inverse: var(--color-slate-900);
+          --text-primary: var(--color-slate-900);
+          --text-secondary: var(--color-slate-700);
+          --text-muted: var(--color-slate-500);
+          --border: var(--color-slate-200);
+          --code-bg: var(--color-slate-900);
         }
-
         [data-theme="dark"] {
           --bg-page: #000000;
           --bg-surface: #111111;
           --bg-inverse: #FFFFFF;
           --text-primary: #FFFFFF;
-          --text-secondary: #AAAAAA;
-          --text-muted: #666666;
+          --text-secondary: var(--color-slate-500);
+          --text-muted: #888888;
           --border: #222222;
           --code-bg: #0A0A0A;
         }
-
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'JetBrains Mono', monospace; background: var(--bg-page); color: var(--text-primary); transition: background 0.3s; line-height: 1.5; }
-
-        /* Callout Primitives */
-        .callout { padding: 16px 20px; border-radius: 4px; margin: 24px 0; border-left: 4px solid; font-size: 13px; line-height: 1.6; }
-        .callout-info { background: rgba(74, 144, 217, 0.05); border-color: #4A90D9; color: var(--text-primary); }
-        .callout-tip { background: rgba(245, 166, 35, 0.05); border-color: var(--brand-accent); color: var(--text-primary); }
-        .callout-warning { background: rgba(255, 184, 108, 0.05); border-color: #ffb86c; color: var(--text-primary); }
-        .callout-danger { background: rgba(255, 85, 85, 0.05); border-color: #ff5555; color: var(--text-primary); }
-
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 64px; }
-        
-        @media (max-width: 860px) {
-          .grid-2 { grid-template-columns: 1fr; gap: 40px; }
+        html { scroll-behavior: smooth; }
+        body {
+          font-family: 'JetBrains Mono', 'Fira Code', monospace;
+          background: var(--bg-page);
+          color: var(--text-primary);
+          transition: background 0.3s ease;
         }
-
-        .bench-table { width: 100%; border-collapse: collapse; margin-top: 32px; font-size: 14px; }
-        .bench-table th { text-align: left; padding: 12px; border-bottom: 1px solid var(--border); color: var(--text-muted); font-size: 11px; text-transform: uppercase; }
-        .bench-table td { padding: 16px 12px; border-bottom: 1px solid var(--border); }
-        .bench-accent { color: var(--brand-accent); font-weight: 800; }
-
-        .feature-card { padding: 32px; border: 1px solid var(--border); border-radius: 4px; transition: transform 0.2s; }
-        .feature-card:hover { transform: translateY(-4px); border-color: var(--brand-accent); }
-
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-        .cursor-blink { animation: blink 1s step-end infinite; }
       `;
       document.head.appendChild(s);
     }
   }
 
-  toggleTheme() {
+  _toggleTheme() {
     this.theme = this.theme === 'light' ? 'dark' : 'light';
     document.documentElement.setAttribute('data-theme', this.theme);
     localStorage.setItem('swite-theme', this.theme);
@@ -85,115 +71,14 @@ component LandingPage {
 
   render() {
     return (
-      <div style="min-height: 100vh;">
-        {/* NAV */}
-        <nav style="height: 64px; border-bottom: 1px solid var(--border); display: flex; align-items: center; background: var(--bg-page); position: sticky; top: 0; z-index: 1000;">
-          <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-            <div style="display: flex; align-items: center; gap: 12px; font-weight: 900; font-size: 20px;">
-               <div style="width: 24px; height: 24px; background: var(--brand-accent); clip-path: polygon(50% 0%, 0% 100%, 100% 100%);"></div>
-               swite
-            </div>
-            <div style="display: flex; gap: 32px; font-size: 13px; font-weight: 700;">
-               <a href="#" style="text-decoration: none; color: var(--text-secondary);">Docs</a>
-               <a href="#" style="text-decoration: none; color: var(--text-secondary);">Why Swite</a>
-               <a href="#" style="text-decoration: none; color: var(--text-secondary);">GitHub</a>
-               <button onclick={() => this.toggleTheme()} style="background: none; border: none; cursor: pointer; color: var(--text-secondary);">{this.theme === 'light' ? 'DARK' : 'LIGHT'}</button>
-            </div>
-          </div>
-        </nav>
-
-        {/* HERO */}
-        <header style="padding: 120px 0; border-bottom: 1px solid var(--border);">
-          <div class="container" style="text-align: center;">
-            <h1 style="font-size: clamp(40px, 10vw, 100px); font-weight: 900; letter-spacing: -0.06em; line-height: 0.9; margin-bottom: 32px;">
-               The dev server<br />
-               <span style="color: var(--brand-accent);">SwissJS deserves.</span>
-            </h1>
-            <p style="font-size: 18px; color: var(--text-secondary); max-width: 700px; margin: 0 auto 48px; font-weight: 500;">
-               Built where Vite stops. Native .uix compilation, context-aware module resolution, and Delta HMR that preserves component state.
-            </p>
-            <div style="display: flex; gap: 16px; justify-content: center; margin-bottom: 64px;">
-               <button style="background: var(--brand-accent); color: #000; border: none; padding: 18px 40px; border-radius: 4px; font-size: 16px; font-weight: 900; cursor: pointer; font-family: inherit;">Get Started</button>
-               <button style="background: var(--bg-surface); color: var(--text-primary); border: 1px solid var(--border); padding: 18px 40px; border-radius: 4px; font-size: 16px; font-weight: 900; cursor: pointer; font-family: inherit;">Read Analysis</button>
-            </div>
-            <div style="display: inline-flex; align-items: center; background: var(--bg-surface); padding: 14px 24px; border-radius: 4px; border: 1px solid var(--border); font-size: 14px;">
-               <span style="color: var(--brand-accent); margin-right: 12px; font-weight: 900;">$</span>
-               <span>npm install -D @kibologic/swite</span>
-               <span class="cursor-blink" style="margin-left: 2px; width: 8px; height: 1.2em; background: var(--brand-accent); display: inline-block; vertical-align: middle;"></span>
-            </div>
-          </div>
-        </header>
-
-        {/* THE PROBLEM STATEMENT */}
-        <section style="padding: 100px 0; background: var(--bg-surface);">
-          <div class="container">
-            <div class="grid-2" style="align-items: center;">
-              <div>
-                <h2 style="font-size: 32px; font-weight: 900; letter-spacing: -0.04em; margin-bottom: 24px;">Engineering Narrative: Why Swite?</h2>
-                <div style="font-size: 15px; color: var(--text-secondary); line-height: 1.8; display: flex; flex-direction: column; gap: 20px;">
-                  <p>Vite is a masterpiece, but it was built for the Virtual DOM era. When we moved SwissJS to a pure Proxy-based Signal engine, we hit the ceiling of generic HMR.</p>
-                  <p>Generic dev servers treat `.uix` files as just another JS transform. Swite treats them as first-class architectural boundaries. We didn't want to patch Vite anymore. We wanted a server that knew exactly how a Swiss component thinks.</p>
-                  <ul style="list-style: none; display: flex; flex-direction: column; gap: 12px;">
-                    {['Zero-overhead Symlink resolution', 'AST-aware Context Rewriting', 'Synchronous ESM Pipeline'].map(t => (
-                      <li key={t} style="font-weight: 800; font-size: 13px; color: var(--text-primary);">[✓] {t}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-              <div>
-                <div style="background: var(--bg-page); border: 1px solid var(--border); padding: 40px; border-radius: 8px;">
-                  <h3 style="font-size: 12px; font-weight: 900; color: var(--text-muted); margin-bottom: 24px; text-transform: uppercase;">Benchmark Arguments</h3>
-                  <table class="bench-table">
-                    <thead>
-                      <tr><th>Metric</th><th>Vite</th><th>Swite</th></tr>
-                    </thead>
-                    <tbody>
-                      <tr><td>Cold Start</td><td>~410ms</td><td class="bench-accent">~38ms</td></tr>
-                      <tr><td>HMR Update</td><td>~80ms</td><td class="bench-accent">~8ms</td></tr>
-                      <tr><td>Full Build</td><td>~3.2s</td><td class="bench-accent">~0.9s</td></tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* FEATURES GRID */}
-        <section style="padding: 100px 0; border-top: 1px solid var(--border);">
-          <div class="container">
-            <div style="text-align: center; margin-bottom: 80px;">
-               <h2 style="font-size: 36px; font-weight: 900; letter-spacing: -0.05em;">Built for Scale.</h2>
-            </div>
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
-               {[
-                 { t: 'Symlink Registry', d: 'Handle 100+ local packages with zero node_modules resolution overhead.' },
-                 { t: 'Context-Aware Rewriting', d: 'Raw .js imports resolved to local .ui/.uix reactive files at runtime.' },
-                 { t: 'Delta HMR', d: 'Hot swap components without losing your reactive Signal state.' },
-                 { t: 'ESBuild Cluster', d: 'Parallelize compilation across every available CPU thread.' },
-                 { t: 'Workspace Native', d: 'Deep understanding of pnpm/npm/yarn workspace protocols.' },
-                 { t: 'Zero Config', d: 'First-class SwissJS support out of the box. No plugins required.' }
-               ].map(f => (
-                 <div key={f.t} class="feature-card">
-                   <h4 style="font-size: 16px; font-weight: 900; margin-bottom: 12px; color: var(--brand-accent);">{f.t}</h4>
-                   <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">{f.d}</p>
-                 </div>
-               ))}
-            </div>
-          </div>
-        </section>
-
-        {/* FOOTER */}
-        <footer style="padding: 64px 0; border-top: 1px solid var(--border); background: var(--bg-surface); text-align: center;">
-          <div class="container">
-            <div style="font-size: 12px; color: var(--text-muted); font-weight: 700;">© 2026 KIBOLOGIC ENGINEERING. LICENSED UNDER MIT.</div>
-            <div style="margin-top: 24px; display: flex; justify-content: center; gap: 40px; font-size: 12px; font-weight: 900;">
-              <a href="#" style="color: var(--text-primary); text-decoration: none;">SWISSJS CORE</a>
-              <a href="#" style="color: var(--text-primary); text-decoration: none;">ALPINE CLOUD</a>
-              <a href="#" style="color: var(--text-primary); text-decoration: none;">GITHUB</a>
-            </div>
-          </div>
-        </footer>
+      <div style="min-height: 100vh; display: flex; flex-direction: column;">
+        <Navbar theme={this.theme} onToggleTheme={() => this._toggleTheme()} />
+        <main style="flex: 1;">
+          <Hero />
+          <Features />
+          <QuickStart />
+        </main>
+        <Footer />
       </div>
     );
   }
