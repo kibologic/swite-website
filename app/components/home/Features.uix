@@ -1,0 +1,154 @@
+import { SwissComponent } from '@kibologic/core';
+
+component Features {
+  props = {};
+
+  mounted() {
+    if (!document.getElementById('swite-features-styles')) {
+      const s = document.createElement('style');
+      s.id = 'swite-features-styles';
+      s.textContent = `
+        .features {
+          padding: 80px 0;
+          border-top: 1px solid var(--border);
+        }
+        .features-inner {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 24px;
+        }
+        .features-header {
+          text-align: center;
+          margin-bottom: 56px;
+        }
+        .features-header h2 {
+          font-size: 32px;
+          font-weight: 900;
+          letter-spacing: -0.05em;
+          margin-bottom: 12px;
+          color: var(--text-primary);
+        }
+        .features-header p {
+          font-size: 15px;
+          color: var(--text-secondary);
+        }
+        .features-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 24px;
+        }
+        .feature-card {
+          padding: 28px 24px;
+          border: 1px solid var(--border);
+          border-radius: 6px;
+          background: var(--bg-surface);
+          transition: border-color 0.2s;
+        }
+        .feature-card:hover {
+          border-color: var(--brand-accent);
+        }
+        .feature-icon {
+          width: 36px;
+          height: 36px;
+          margin-bottom: 16px;
+          color: var(--brand-accent);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .feature-title {
+          font-size: 15px;
+          font-weight: 800;
+          margin-bottom: 10px;
+          letter-spacing: -0.03em;
+          color: var(--text-primary);
+        }
+        .feature-desc {
+          font-size: 13px;
+          color: var(--text-secondary);
+          line-height: 1.7;
+        }
+        @media (max-width: 860px) {
+          .features-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+        @media (max-width: 540px) {
+          .features-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+      `;
+      document.head.appendChild(s);
+    }
+  }
+
+  _iconZeroConfig() {
+    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M4.93 19.07l-1.41 1.41M12 2v2M12 20v2M4.93 4.93l1.41 1.41M19.07 19.07l1.41-1.41M2 12h2M20 12h2"/></svg>`;
+  }
+
+  _iconHMR() {
+    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>`;
+  }
+
+  _iconAST() {
+    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`;
+  }
+
+  _iconFileRouter() {
+    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>`;
+  }
+
+  _iconTS() {
+    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M8 12h8M12 8v8"/></svg>`;
+  }
+
+  _iconProd() {
+    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`;
+  }
+
+  render() {
+    return (
+      <section class="features">
+        <div class="features-inner">
+          <div class="features-header">
+            <h2>Everything you need</h2>
+            <p>Built natively for the SwissJS workflow — no plugins, no config files.</p>
+          </div>
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon" ref={(el: any) => { if (el) el.innerHTML = this._iconZeroConfig(); }}></div>
+              <div class="feature-title">Zero Config</div>
+              <p class="feature-desc">Works out of the box. Point it at your app root and start building.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" ref={(el: any) => { if (el) el.innerHTML = this._iconHMR(); }}></div>
+              <div class="feature-title">HMR Engine</div>
+              <p class="feature-desc">Sub-millisecond hot reload via WebSocket diffing. See your changes instantly.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" ref={(el: any) => { if (el) el.innerHTML = this._iconAST(); }}></div>
+              <div class="feature-title">AST Pipeline</div>
+              <p class="feature-desc">Native <code style="font-size:11px;">.uix</code> and <code style="font-size:11px;">.ui</code> compilation without external transform plugins.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" ref={(el: any) => { if (el) el.innerHTML = this._iconFileRouter(); }}></div>
+              <div class="feature-title">File Router</div>
+              <p class="feature-desc">Automatic route generation from your folder structure via <code style="font-size:11px;">@swissjs/plugin-file-router</code>.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" ref={(el: any) => { if (el) el.innerHTML = this._iconTS(); }}></div>
+              <div class="feature-title">TypeScript First</div>
+              <p class="feature-desc">Full TypeScript support with esbuild-powered transforms.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" ref={(el: any) => { if (el) el.innerHTML = this._iconProd(); }}></div>
+              <div class="feature-title">Production Ready</div>
+              <p class="feature-desc">The same engine powers Alpine ERP in production environments.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+}
