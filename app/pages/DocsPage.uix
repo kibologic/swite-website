@@ -200,7 +200,7 @@ component DocsPage {
         <div class="docs-code"><span class="d-fn">pnpm</span> add @swissjs/swite --save-dev</div>
         <p>Then create a <code class="docs-inline-code">dev.mjs</code> at your project root:</p>
         <div class="docs-code">
-          <span class="d-kw">import</span> {"{"} SwiteServer {"}"} <span class="d-kw">from</span> <span class="d-str">'@swissjs/swite'</span>;<br /><br />
+          <span class="d-kw">import</span> {"{"} SwiteServer {"}"} <span class="d-kw">from</span> <span class="d-str">{"'@swissjs"}{"/" + "swite'"}</span>;<br /><br />
           <span class="d-kw">const</span> server = <span class="d-kw">new</span> SwiteServer({"{"}<br />
           {"  "}root: <span class="d-str">'./app'</span>,<br />
           {"  "}port: <span class="d-type">5000</span>,<br />
@@ -303,8 +303,8 @@ component DocsPage {
         <p>Automatically generates routes from your <code class="docs-inline-code">app/pages/</code> folder structure. No manual route registration required.</p>
         <div class="docs-code"><span class="d-fn">pnpm</span> add @swissjs/plugin-file-router --save-dev</div>
         <div class="docs-code">
-          <span class="d-kw">import</span> {"{"} SwiteServer {"}"} <span class="d-kw">from</span> <span class="d-str">'@swissjs/swite'</span>;<br />
-          <span class="d-kw">import</span> {"{"} fileRouter {"}"} <span class="d-kw">from</span> <span class="d-str">'@swissjs/plugin-file-router'</span>;<br /><br />
+          <span class="d-kw">import</span> {"{"} SwiteServer {"}"} <span class="d-kw">from</span> <span class="d-str">{"'@swissjs"}{"/" + "swite'"}</span>;<br />
+          <span class="d-kw">import</span> {"{"} fileRouter {"}"} <span class="d-kw">from</span> <span class="d-str">{"'@swissjs"}{"/" + "plugin-file-router'"}</span>;<br /><br />
           <span class="d-kw">const</span> server = <span class="d-kw">new</span> SwiteServer({"{"}<br />
           {"  "}root: <span class="d-str">'./app'</span>,<br />
           {"  "}plugins: [<span class="d-fn">fileRouter</span>()],<br />
