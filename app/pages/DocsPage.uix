@@ -1,0 +1,391 @@
+import { SwissComponent } from '@kibologic/core';
+import { Navbar } from '../components/Navbar.uix';
+import { Footer } from '../components/Footer.uix';
+
+component DocsPage {
+  props = {
+    route: '/docs' as string,
+  };
+
+  state { let theme: 'light' | 'dark' = 'dark'; }
+
+  mounted() {
+    const saved = localStorage.getItem('swite-theme') as 'light' | 'dark' | null;
+    this.theme = saved || 'dark';
+    document.documentElement.setAttribute('data-theme', this.theme);
+
+    if (!document.getElementById('swite-docs-styles')) {
+      const s = document.createElement('style');
+      s.id = 'swite-docs-styles';
+      s.textContent = `
+        .docs-layout {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 40px 24px 80px;
+          display: grid;
+          grid-template-columns: 220px 1fr;
+          gap: 48px;
+          align-items: start;
+        }
+        .docs-sidebar {
+          position: sticky;
+          top: 80px;
+        }
+        .docs-sidebar-label {
+          font-size: 10px;
+          font-weight: 800;
+          letter-spacing: 0.1em;
+          color: var(--text-muted);
+          text-transform: uppercase;
+          margin-bottom: 12px;
+          margin-top: 20px;
+        }
+        .docs-sidebar-label:first-child { margin-top: 0; }
+        .docs-sidebar a {
+          display: block;
+          font-size: 13px;
+          color: var(--text-secondary);
+          text-decoration: none;
+          padding: 6px 10px;
+          border-radius: 4px;
+          margin-bottom: 2px;
+          transition: background 0.15s, color 0.15s;
+        }
+        .docs-sidebar a:hover { background: var(--bg-surface); color: var(--text-primary); }
+        .docs-sidebar a.active {
+          background: var(--brand-accent-subtle);
+          color: var(--brand-accent);
+          font-weight: 700;
+        }
+        .docs-content h1 {
+          font-size: 32px;
+          font-weight: 900;
+          letter-spacing: -0.05em;
+          margin-bottom: 16px;
+          color: var(--text-primary);
+        }
+        .docs-content h2 {
+          font-size: 20px;
+          font-weight: 800;
+          letter-spacing: -0.03em;
+          margin: 36px 0 14px;
+          color: var(--text-primary);
+          padding-top: 36px;
+          border-top: 1px solid var(--border);
+        }
+        .docs-content h2:first-of-type { border-top: none; margin-top: 24px; }
+        .docs-content h3 {
+          font-size: 15px;
+          font-weight: 800;
+          margin: 24px 0 10px;
+          color: var(--text-primary);
+        }
+        .docs-content p {
+          font-size: 14px;
+          color: var(--text-secondary);
+          line-height: 1.8;
+          margin-bottom: 16px;
+        }
+        .docs-content ul {
+          margin: 0 0 16px 20px;
+          font-size: 14px;
+          color: var(--text-secondary);
+          line-height: 1.8;
+        }
+        .docs-content li { margin-bottom: 6px; }
+        .docs-lead {
+          font-size: 16px;
+          color: var(--text-secondary);
+          line-height: 1.7;
+          margin-bottom: 32px;
+          padding-bottom: 32px;
+          border-bottom: 1px solid var(--border);
+        }
+        .docs-code {
+          background: var(--code-bg, #0a0a0a);
+          border: 1px solid var(--border);
+          border-radius: 4px;
+          padding: 16px 20px;
+          font-size: 12px;
+          line-height: 1.8;
+          margin: 16px 0;
+          overflow-x: auto;
+          color: #ccc;
+        }
+        .docs-inline-code {
+          background: var(--bg-surface);
+          border: 1px solid var(--border);
+          border-radius: 3px;
+          padding: 1px 6px;
+          font-size: 12px;
+          color: var(--brand-accent);
+          font-family: inherit;
+        }
+        .docs-table {
+          width: 100%;
+          border-collapse: collapse;
+          font-size: 13px;
+          margin: 16px 0;
+        }
+        .docs-table th {
+          text-align: left;
+          padding: 8px 12px;
+          background: var(--bg-surface);
+          border: 1px solid var(--border);
+          font-weight: 700;
+          color: var(--text-primary);
+        }
+        .docs-table td {
+          padding: 8px 12px;
+          border: 1px solid var(--border);
+          color: var(--text-secondary);
+          vertical-align: top;
+        }
+        .d-kw { color: #ff79c6; }
+        .d-str { color: #f1fa8c; }
+        .d-type { color: #8be9fd; }
+        .d-cmt { color: #6272a4; }
+        .d-fn { color: #50fa7b; }
+        @media (max-width: 768px) {
+          .docs-layout { grid-template-columns: 1fr; }
+          .docs-sidebar { position: static; }
+        }
+      `;
+      document.head.appendChild(s);
+    }
+  }
+
+  _toggleTheme() {
+    this.theme = this.theme === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', this.theme);
+    localStorage.setItem('swite-theme', this.theme);
+  }
+
+  _isActive(path: string) {
+    const r = this.props.route || '/docs';
+    if (path === '/docs') return r === '/docs' || r === '/docs/';
+    return r === path || r.startsWith(path + '/');
+  }
+
+  _renderIntro() {
+    return (
+      <div class="docs-content">
+        <h1>Introduction</h1>
+        <p class="docs-lead">Swite is the official dev server and compilation engine for SwissJS applications. It replaces Vite entirely with a purpose-built pipeline that understands <code class="docs-inline-code">.uix</code> and <code class="docs-inline-code">.ui</code> syntax natively.</p>
+        <h2>What is Swite?</h2>
+        <p>Swite handles the full development lifecycle for SwissJS projects:</p>
+        <ul>
+          <li>Serves <code class="docs-inline-code">.ui</code> and <code class="docs-inline-code">.uix</code> files with on-the-fly AST compilation</li>
+          <li>Provides Hot Module Replacement (HMR) via WebSocket</li>
+          <li>Handles file-based routing via <code class="docs-inline-code">@swissjs/plugin-file-router</code></li>
+          <li>Produces optimized production builds via esbuild</li>
+        </ul>
+        <h2>Who is it for?</h2>
+        <p>Swite is for developers building applications with the SwissJS framework. It is used internally by the Alpine ERP platform and is the standard toolchain for all Kibologic projects.</p>
+        <h2>Why not Vite?</h2>
+        <p>Vite requires external plugins to handle SwissJS component syntax, lacks first-class support for <code class="docs-inline-code">.uix</code> component boundaries, and adds overhead for a stack that doesn't need a generic bundler. Swite compiles SwissJS directly without a plugin layer.</p>
+      </div>
+    );
+  }
+
+  _renderInstall() {
+    return (
+      <div class="docs-content">
+        <h1>Installation</h1>
+        <p class="docs-lead">The fastest way to start a new SwissJS project is with the <code class="docs-inline-code">create-swissjs</code> scaffolder, which sets up Swite automatically.</p>
+        <h2>Create a new project</h2>
+        <div class="docs-code"><span class="d-fn">npm</span> create swissjs@latest my-app<br /><span class="d-fn">cd</span> my-app<br /><span class="d-fn">pnpm</span> install<br /><span class="d-fn">pnpm</span> dev</div>
+        <h2>Manual setup</h2>
+        <p>To add Swite to an existing project:</p>
+        <div class="docs-code"><span class="d-fn">pnpm</span> add @swissjs/swite --save-dev</div>
+        <p>Then create a <code class="docs-inline-code">dev.mjs</code> at your project root:</p>
+        <div class="docs-code">
+          <span class="d-kw">import</span> {"{"} SwiteServer {"}"} <span class="d-kw">from</span> <span class="d-str">'@swissjs/swite'</span>;<br /><br />
+          <span class="d-kw">const</span> server = <span class="d-kw">new</span> SwiteServer({"{"}<br />
+          {"  "}root: <span class="d-str">'./app'</span>,<br />
+          {"  "}port: <span class="d-type">5000</span>,<br />
+          {"}"});<br /><br />
+          <span class="d-kw">await</span> server.<span class="d-fn">start</span>();
+        </div>
+        <p>Add scripts to your <code class="docs-inline-code">package.json</code>:</p>
+        <div class="docs-code">
+          <span class="d-str">"scripts"</span>: {"{"}<br />
+          {"  "}<span class="d-str">"dev"</span>: <span class="d-str">"node dev.mjs"</span>,<br />
+          {"  "}<span class="d-str">"build"</span>: <span class="d-str">"swite build"</span><br />
+          {"}"}
+        </div>
+      </div>
+    );
+  }
+
+  _renderConfig() {
+    return (
+      <div class="docs-content">
+        <h1>Configuration</h1>
+        <p class="docs-lead">Swite is zero-config by default. All options are passed directly to <code class="docs-inline-code">SwiteServer</code> — no config file required.</p>
+        <h2>SwiteServer options</h2>
+        <table class="docs-table">
+          <thead>
+            <tr>
+              <th>Option</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code class="docs-inline-code">root</code></td>
+              <td>string</td>
+              <td><code class="docs-inline-code">'./app'</code></td>
+              <td>App root directory containing your components and pages.</td>
+            </tr>
+            <tr>
+              <td><code class="docs-inline-code">port</code></td>
+              <td>number</td>
+              <td><code class="docs-inline-code">5000</code></td>
+              <td>Port for the dev server.</td>
+            </tr>
+            <tr>
+              <td><code class="docs-inline-code">hmr</code></td>
+              <td>boolean</td>
+              <td><code class="docs-inline-code">true</code></td>
+              <td>Enable HMR WebSocket server.</td>
+            </tr>
+            <tr>
+              <td><code class="docs-inline-code">publicDir</code></td>
+              <td>string</td>
+              <td><code class="docs-inline-code">'public'</code></td>
+              <td>Static assets directory (relative to root).</td>
+            </tr>
+            <tr>
+              <td><code class="docs-inline-code">host</code></td>
+              <td>string</td>
+              <td><code class="docs-inline-code">'localhost'</code></td>
+              <td>Host to bind to. Use <code class="docs-inline-code">'0.0.0.0'</code> to expose on LAN.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
+  _renderCLI() {
+    return (
+      <div class="docs-content">
+        <h1>CLI Reference</h1>
+        <p class="docs-lead">Swite includes a CLI for development, building, and serving production apps.</p>
+        <h2>dev</h2>
+        <p>Starts the Swite development server with HMR enabled.</p>
+        <div class="docs-code"><span class="d-fn">swite</span> dev [--port 5000] [--host 0.0.0.0]</div>
+        <h3>Flags</h3>
+        <ul>
+          <li><code class="docs-inline-code">--port</code> — override the dev server port</li>
+          <li><code class="docs-inline-code">--host</code> — bind host (use 0.0.0.0 for LAN access)</li>
+          <li><code class="docs-inline-code">--open</code> — open browser on startup</li>
+        </ul>
+        <h2>build</h2>
+        <p>Compiles your SwissJS app for production. Output goes to <code class="docs-inline-code">dist/</code>.</p>
+        <div class="docs-code"><span class="d-fn">swite</span> build [--outDir dist]</div>
+        <h2>start</h2>
+        <p>Serves the production build from <code class="docs-inline-code">dist/</code>.</p>
+        <div class="docs-code"><span class="d-fn">swite</span> start [--port 8080]</div>
+      </div>
+    );
+  }
+
+  _renderPlugins() {
+    return (
+      <div class="docs-content">
+        <h1>Plugins</h1>
+        <p class="docs-lead">Swite has a lightweight plugin system for extending compilation and routing behavior.</p>
+        <h2>@swissjs/plugin-file-router</h2>
+        <p>Automatically generates routes from your <code class="docs-inline-code">app/pages/</code> folder structure. No manual route registration required.</p>
+        <div class="docs-code"><span class="d-fn">pnpm</span> add @swissjs/plugin-file-router --save-dev</div>
+        <div class="docs-code">
+          <span class="d-kw">import</span> {"{"} SwiteServer {"}"} <span class="d-kw">from</span> <span class="d-str">'@swissjs/swite'</span>;<br />
+          <span class="d-kw">import</span> {"{"} fileRouter {"}"} <span class="d-kw">from</span> <span class="d-str">'@swissjs/plugin-file-router'</span>;<br /><br />
+          <span class="d-kw">const</span> server = <span class="d-kw">new</span> SwiteServer({"{"}<br />
+          {"  "}root: <span class="d-str">'./app'</span>,<br />
+          {"  "}plugins: [<span class="d-fn">fileRouter</span>()],<br />
+          {"}"});
+        </div>
+        <h3>Convention</h3>
+        <ul>
+          <li><code class="docs-inline-code">pages/Home.uix</code> → <code class="docs-inline-code">/</code></li>
+          <li><code class="docs-inline-code">pages/About.uix</code> → <code class="docs-inline-code">/about</code></li>
+          <li><code class="docs-inline-code">pages/docs/Index.uix</code> → <code class="docs-inline-code">/docs</code></li>
+        </ul>
+        <h2>@swissjs/plugin-web-storage</h2>
+        <p>Adds reactive bindings to <code class="docs-inline-code">localStorage</code> and <code class="docs-inline-code">sessionStorage</code>, allowing component state to persist across page reloads automatically.</p>
+        <div class="docs-code"><span class="d-fn">pnpm</span> add @swissjs/plugin-web-storage --save-dev</div>
+      </div>
+    );
+  }
+
+  _renderHMR() {
+    return (
+      <div class="docs-content">
+        <h1>HMR</h1>
+        <p class="docs-lead">Swite's HMR engine provides sub-millisecond hot reload by sending only the changed component boundary over a WebSocket connection — no full page reload needed.</p>
+        <h2>How it works</h2>
+        <ul>
+          <li>Swite watches your <code class="docs-inline-code">app/</code> directory with Chokidar</li>
+          <li>On file change, the AST pipeline recompiles only the changed file</li>
+          <li>A diff payload is sent to the browser over WebSocket on port <code class="docs-inline-code">:44171</code></li>
+          <li>The SwissJS runtime patches the affected component in-place</li>
+        </ul>
+        <h2>WebSocket protocol</h2>
+        <p>The HMR client connects automatically when running in dev mode. No configuration is required.</p>
+        <div class="docs-code">
+          <span class="d-cmt">{"// Emitted on file change"}</span><br />
+          {"{"} type: <span class="d-str">'update'</span>, path: <span class="d-str">'/pages/Home.uix'</span>, hash: <span class="d-str">'a3f9...'</span> {"}"}
+        </div>
+        <h2>Full reload triggers</h2>
+        <p>Some changes cannot be hot-patched and will trigger a full page reload:</p>
+        <ul>
+          <li>Changes to <code class="docs-inline-code">main.ui</code> or entry point files</li>
+          <li>Changes to CSS variables or global styles</li>
+          <li>Structural changes to the component tree (add/remove imports)</li>
+        </ul>
+      </div>
+    );
+  }
+
+  _renderSection() {
+    const r = this.props.route || '/docs';
+    if (r === '/docs/install') return this._renderInstall();
+    if (r === '/docs/config') return this._renderConfig();
+    if (r === '/docs/cli') return this._renderCLI();
+    if (r === '/docs/plugins') return this._renderPlugins();
+    if (r === '/docs/hmr') return this._renderHMR();
+    return this._renderIntro();
+  }
+
+  render() {
+    return (
+      <div style="min-height: 100vh; display: flex; flex-direction: column;">
+        <Navbar theme={this.theme} onToggleTheme={() => this._toggleTheme()} />
+        <main style="flex: 1;">
+          <div class="docs-layout">
+            <nav class="docs-sidebar">
+              <div class="docs-sidebar-label">Getting Started</div>
+              <a href="/docs" class={this._isActive('/docs') && !this._isActive('/docs/install') && !this._isActive('/docs/config') && !this._isActive('/docs/cli') && !this._isActive('/docs/plugins') && !this._isActive('/docs/hmr') ? 'active' : ''}>Introduction</a>
+              <a href="/docs/install" class={this._isActive('/docs/install') ? 'active' : ''}>Installation</a>
+              <div class="docs-sidebar-label">Reference</div>
+              <a href="/docs/config" class={this._isActive('/docs/config') ? 'active' : ''}>Configuration</a>
+              <a href="/docs/cli" class={this._isActive('/docs/cli') ? 'active' : ''}>CLI Reference</a>
+              <div class="docs-sidebar-label">Advanced</div>
+              <a href="/docs/plugins" class={this._isActive('/docs/plugins') ? 'active' : ''}>Plugins</a>
+              <a href="/docs/hmr" class={this._isActive('/docs/hmr') ? 'active' : ''}>HMR</a>
+            </nav>
+            <div>
+              {this._renderSection()}
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+}
