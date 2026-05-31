@@ -1,0 +1,61 @@
+import { SwissComponent } from '@kibologic/core';
+import { Shell } from '../components/Shell.uix';
+
+component PluginEcosystemPage {
+  _plugins(): any[] {
+    return [
+      { name: '@kibologic/plugin-file-router', status: 'stable', desc: 'Auto-generates routes from the pages/ directory. Maps FooPage.uix → /foo.', install: 'pnpm add @kibologic/plugin-file-router' },
+      { name: '@kibologic/plugin-web-storage', status: 'stable', desc: 'Reactive wrappers around localStorage and sessionStorage. State persists across page reloads.', install: 'pnpm add @kibologic/plugin-web-storage' },
+      { name: 'swite-plugin-react', status: 'planned', desc: 'Enables React and React DOM support in Swite projects. Adds .tsx transform and JSX runtime configuration.', install: 'pnpm add swite-plugin-react' },
+      { name: 'swite-plugin-vue', status: 'planned', desc: 'Vue SFC (.vue) support via @vue/compiler-sfc. Run Vue 3 components alongside or inside SwissJS apps.', install: 'pnpm add swite-plugin-vue' },
+      { name: 'swite-plugin-mdx', status: 'planned', desc: 'MDX content pipeline — .mdx files are compiled to components and can import and render SwissJS components.', install: 'pnpm add swite-plugin-mdx' },
+      { name: 'swite-plugin-pwa', status: 'beta', desc: 'Service worker generation, Web App Manifest injection, and offline caching strategies.', install: 'pnpm add swite-plugin-pwa' },
+    ];
+  }
+
+  _statusColor(status: string): string {
+    const colors: Record<string, string> = {
+      stable: '#16a34a',
+      beta: '#d97706',
+      planned: '#6b7280',
+    };
+    return colors[status] || '#6b7280';
+  }
+
+  render() {
+    const plugins = this._plugins();
+    return (
+      <Shell activeRoute="/plugins">
+        <div style="max-width: 900px;">
+          <div style="margin-bottom: 32px;">
+            <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 8px;">Ecosystem</div>
+            <h1 style="margin: 0 0 12px; font-size: 42px; letter-spacing: -0.05em;">Plugin Ecosystem</h1>
+            <p style="margin: 0; color: var(--text-secondary); font-size: 16px; line-height: 1.7; max-width: 680px;">
+              Official and community plugins that extend Swite. Plugins add support for new frameworks, file types, and build transforms.
+            </p>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 40px;">
+            {plugins.map(p => (
+              <div key={p.name} class="sw-doc-card" style="padding: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                  <code style="font-size: 14px; font-weight: 800; color: var(--text-primary); font-family: inherit;">{p.name}</code>
+                  <span style={'padding:2px 10px;border-radius:999px;font-size:11px;font-weight:700;background:' + this._statusColor(p.status) + '22;color:' + this._statusColor(p.status)}>{p.status}</span>
+                </div>
+                <p style="margin: 0 0 12px; font-size: 13px; color: var(--text-secondary); line-height: 1.6;">{p.desc}</p>
+                {p.status !== 'planned' && (
+                  <div class="sw-code-block" style="padding: 10px 14px; font-size: 12px;">{p.install}</div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <div class="sw-doc-card">
+            <h2 style="margin: 0 0 12px; font-size: 18px; font-weight: 800;">Write your own plugin</h2>
+            <p style="margin: 0 0 14px; color: var(--text-secondary); font-size: 14px; line-height: 1.6;">Any function that returns a plugin object with name and hooks is a valid Swite plugin. See the <a href="/features/plugins" style="color: var(--sw-accent);">Plugin API docs</a> for the full hook reference.</p>
+          </div>
+        </div>
+      </Shell>
+    );
+  }
+}
