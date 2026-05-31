@@ -4,153 +4,89 @@ component QuickStart {
   props = {};
 
   mounted() {
-    if (!document.getElementById('swite-quickstart-styles')) {
+    if (!document.getElementById('swite-qs-styles')) {
       const s = document.createElement('style');
-      s.id = 'swite-quickstart-styles';
-      s.textContent = `
-        .quickstart {
-          padding: 80px 0;
-          background: var(--bg-surface);
-          border-top: 1px solid var(--border);
-        }
-        .quickstart-inner {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 0 24px;
-        }
-        .quickstart-header {
-          margin-bottom: 48px;
-        }
-        .quickstart-header h2 {
-          font-size: 32px;
-          font-weight: 900;
-          letter-spacing: -0.05em;
-          margin-bottom: 10px;
-          color: var(--text-primary);
-        }
-        .quickstart-header p {
-          font-size: 15px;
-          color: var(--text-secondary);
-        }
-        .quickstart-steps {
-          display: flex;
-          flex-direction: column;
-          gap: 32px;
-        }
-        .qs-step {
-          display: grid;
-          grid-template-columns: 40px 1fr;
-          gap: 24px;
-          align-items: start;
-        }
-        .qs-num {
-          width: 36px;
-          height: 36px;
-          border-radius: 50%;
-          border: 2px solid var(--brand-accent);
-          color: var(--brand-accent);
-          font-size: 14px;
-          font-weight: 800;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-        }
-        .qs-content h3 {
-          font-size: 16px;
-          font-weight: 800;
-          letter-spacing: -0.03em;
-          margin-bottom: 10px;
-          color: var(--text-primary);
-        }
-        .qs-cmd {
-          display: inline-block;
-          background: var(--bg-page);
-          border: 1px solid var(--border);
-          border-radius: 4px;
-          padding: 10px 16px;
-          font-size: 13px;
-          color: var(--brand-accent);
-          font-family: inherit;
-        }
-        .qs-code-block {
-          background: var(--bg-page);
-          border: 1px solid var(--border);
-          border-radius: 4px;
-          padding: 20px;
-          font-size: 12px;
-          line-height: 1.8;
-          overflow-x: auto;
-        }
-        .qs-kw { color: #ff79c6; }
-        .qs-str { color: #f1fa8c; }
-        .qs-type { color: #8be9fd; }
-        .qs-cmt { color: #6272a4; }
-        .qs-fn { color: #50fa7b; }
-        @media (max-width: 540px) {
-          .qs-step { grid-template-columns: 32px 1fr; gap: 16px; }
-        }
-      `;
+      s.id = 'swite-qs-styles';
+      s.textContent = '.qs{padding:80px 0;background:var(--bg-surface);border-top:1px solid var(--border);}.qs-inner{max-width:1200px;margin:0 auto;padding:0 24px;}.qs-steps{display:flex;flex-direction:column;gap:32px;}.qs-step{display:grid;grid-template-columns:40px 1fr;gap:24px;align-items:start;}.qs-num{width:36px;height:36px;border-radius:50%;border:2px solid var(--brand-accent);color:var(--brand-accent);font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}.qs-cmd{display:inline-block;background:var(--bg-page);border:1px solid var(--border);border-radius:4px;padding:10px 16px;font-size:13px;color:var(--brand-accent);font-family:inherit;}.qs-code{background:var(--bg-page);border:1px solid var(--border);border-radius:4px;padding:20px;font-size:12px;line-height:1.8;overflow-x:auto;}';
       document.head.appendChild(s);
     }
   }
 
   render() {
     return (
-      <section class="quickstart">
-        <div class="quickstart-inner">
-          <div class="quickstart-header">
-            <h2>Quick Start</h2>
-            <p>From zero to running app in under a minute.</p>
+      <section class="qs">
+        <div class="qs-inner">
+          <div style="margin-bottom: 48px;">
+            <h2 style="font-size: 32px; font-weight: 900; letter-spacing: -0.05em; margin-bottom: 10px; color: var(--text-primary);">Quick Start</h2>
+            <p style="font-size: 15px; color: var(--text-secondary);">From zero to running app in under a minute.</p>
           </div>
-          <div class="quickstart-steps">
+          <div class="qs-steps">
+
             <div class="qs-step">
               <div class="qs-num">1</div>
-              <div class="qs-content">
-                <h3>Install</h3>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <h3 style="font-size: 16px; font-weight: 800; letter-spacing: -0.03em; color: var(--text-primary);">Install</h3>
                 <code class="qs-cmd">npm create swissjs@latest my-app</code>
               </div>
             </div>
+
             <div class="qs-step">
               <div class="qs-num">2</div>
-              <div class="qs-content">
-                <h3>Start</h3>
-                <code class="qs-cmd">cd my-app &amp;&amp; pnpm dev</code>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <h3 style="font-size: 16px; font-weight: 800; letter-spacing: -0.03em; color: var(--text-primary);">Start</h3>
+                <code class="qs-cmd">{"cd my-app && pnpm dev"}</code>
               </div>
             </div>
+
             <div class="qs-step">
               <div class="qs-num">3</div>
-              <div class="qs-content">
-                <h3>Write</h3>
-                <div class="qs-code-block">
-                  <span class="qs-cmt">{"// app/pages/Home.uix"}</span><br />
-                  <span class="qs-kw">import</span> {"{"} <span class="qs-type">SwissComponent</span> {"}"} <span class="qs-kw">from</span> <span class="qs-str">'@swissjs/core'</span>;<br />
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <h3 style="font-size: 16px; font-weight: 800; letter-spacing: -0.03em; color: var(--text-primary);">Write</h3>
+                <div class="qs-code">
+                  <span style="color:#6272a4;">{"// app/pages/Home.uix"}</span><br />
+                  <span style="color:#ff79c6;">import</span>
+                  {" { "}
+                  <span style="color:#8be9fd;">SwissComponent</span>
+                  {" } "}
+                  <span style="color:#ff79c6;">from</span>
+                  {" "}
+                  <span style="color:#f1fa8c;">'@swissjs/core'</span>;<br />
                   <br />
-                  <span class="qs-kw">component</span> <span class="qs-type">Home</span> {"{"}<br />
-                  {"  "}<span class="qs-kw">state</span> {"{"} <span class="qs-kw">let</span> count: <span class="qs-type">number</span> = <span class="qs-type">0</span>; {"}"}<br />
+                  <span style="color:#ff79c6;">component</span>
+                  {" "}
+                  <span style="color:#8be9fd;">Home</span>
+                  {" {"}<br />
+                  {"  "}
+                  <span style="color:#ff79c6;">state</span>
+                  {" { let count: "}
+                  <span style="color:#8be9fd;">number</span>
+                  {" = 0; }"}<br />
                   <br />
-                  {"  "}<span class="qs-fn">render</span>() {"{"}<br />
-                  {"    "}<span class="qs-kw">return</span> (<br />
-                  {"      "}&lt;<span class="qs-type">div</span>&gt;<br />
-                  {"        "}&lt;<span class="qs-type">h1</span>&gt;Hello, SwissJS&lt;/<span class="qs-type">h1</span>&gt;<br />
-                  {"        "}&lt;<span class="qs-type">button</span> onclick={() =&gt; this.count++}&gt;<br />
-                  {"          "}Count: {"{this.count}"}<br />
-                  {"        "}&lt;/<span class="qs-type">button</span>&gt;<br />
-                  {"      "}&lt;/<span class="qs-type">div</span>&gt;<br />
-                  {"    "});<br />
-                  {"  "}{"}"}
-                  <br />
+                  {"  "}
+                  <span style="color:#50fa7b;">render</span>
+                  {"() {"}<br />
+                  {"    return ("}<br />
+                  {"      <div>"}<br />
+                  {"        <h1>Hello, SwissJS</h1>"}<br />
+                  {"        <button onclick={() => this.count++}>"}<br />
+                  {"          Count: {this.count}"}<br />
+                  {"        </button>"}<br />
+                  {"      </div>"}<br />
+                  {"    );"}<br />
+                  {"  }"}<br />
                   {"}"}
                 </div>
               </div>
             </div>
+
             <div class="qs-step">
               <div class="qs-num">4</div>
-              <div class="qs-content">
-                <h3>Build</h3>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <h3 style="font-size: 16px; font-weight: 800; letter-spacing: -0.03em; color: var(--text-primary);">Build</h3>
                 <code class="qs-cmd">pnpm build</code>
               </div>
             </div>
+
           </div>
         </div>
       </section>
