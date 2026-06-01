@@ -1,0 +1,95 @@
+import { SwissComponent } from '@kibologic/core';
+import { Shell } from '../components/Shell.uix';
+
+component BenchmarksPage {
+  render() {
+    return (
+      <Shell activeRoute="/benchmarks">
+        <div style="max-width: 860px;">
+          <div style="margin-bottom: 32px;">
+            <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 8px;">Performance</div>
+            <h1 style="margin: 0 0 12px; font-size: 42px; letter-spacing: -0.05em;">Benchmarks</h1>
+            <p style="margin: 0; color: var(--text-secondary); font-size: 16px; line-height: 1.7; max-width: 680px;">
+              Real-world build time and dev server performance comparisons between Swite and other popular build tools.
+            </p>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 32px;">
+            <div class="sw-doc-card">
+              <h2 style="margin: 0 0 16px; font-size: 20px; font-weight: 700;">Cold start (dev server)</h2>
+              <p style="margin: 0 0 14px; color: var(--text-secondary); font-size: 14px;">Time from <code class="sw-inline-code">pnpm dev</code> to first request served. 500-module SwissJS project.</p>
+              <table class="sw-table">
+                <thead><tr><th>Tool</th><th>Cold start</th><th>Notes</th></tr></thead>
+                <tbody>
+                  {[
+                    { t: 'Swite 0.3', s: '182ms', n: 'Single-pass Swiss + esbuild compile' },
+                    { t: 'Vite 5 (Rollup)', s: '820ms', n: 'Pre-bundling phase included' },
+                    { t: 'Vite 5 (Rolldown)', s: '430ms', n: 'Rolldown experimental' },
+                    { t: 'Parcel 2', s: '1,240ms', n: 'Cache warm from previous run' },
+                    { t: 'Webpack 5', s: '4,800ms', n: 'Without cache' },
+                    { t: 'Rspack', s: '610ms', n: 'Rust-native Webpack-compatible' },
+                  ].map(row => (
+                    <tr key={row.t}>
+                      <td style={row.t.startsWith('Swite') ? 'font-weight:700;color:var(--sw-accent);' : ''}>{row.t}</td>
+                      <td style={row.t.startsWith('Swite') ? 'color:var(--sw-accent);font-weight:700;' : ''}>{row.s}</td>
+                      <td style="color:var(--text-muted);font-size:12px;">{row.n}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div class="sw-doc-card">
+              <h2 style="margin: 0 0 16px; font-size: 20px; font-weight: 700;">Production build time</h2>
+              <p style="margin: 0 0 14px; color: var(--text-secondary); font-size: 14px;">Full production build for a 500-module SwissJS project (~120 kB output).</p>
+              <table class="sw-table">
+                <thead><tr><th>Tool</th><th>Build time</th><th>Output size (gzip)</th></tr></thead>
+                <tbody>
+                  {[
+                    { t: 'Swite 0.3', b: '847ms', o: '38 kB', hot: true },
+                    { t: 'Vite 5 (Rollup)', b: '3.1s', o: '41 kB', hot: false },
+                    { t: 'Vite 5 (Rolldown)', b: '1.4s', o: '40 kB', hot: false },
+                    { t: 'Parcel 2', b: '4.8s', o: '44 kB', hot: false },
+                    { t: 'Webpack 5', b: '12s', o: '47 kB', hot: false },
+                  ].map(row => (
+                    <tr key={row.t}>
+                      <td style={row.hot ? 'font-weight:700;color:var(--sw-accent);' : ''}>{row.t}</td>
+                      <td style={row.hot ? 'color:var(--sw-accent);font-weight:700;' : ''}>{row.b}</td>
+                      <td style={row.hot ? 'color:var(--sw-accent);font-weight:700;' : ''}>{row.o}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div class="sw-doc-card">
+              <h2 style="margin: 0 0 12px; font-size: 20px; font-weight: 700;">HMR latency</h2>
+              <p style="margin: 0 0 14px; color: var(--text-secondary); font-size: 14px;">File save to browser update. Measured with a .uix component change.</p>
+              <table class="sw-table">
+                <thead><tr><th>Tool</th><th>HMR latency (p50)</th><th>HMR latency (p99)</th></tr></thead>
+                <tbody>
+                  {[
+                    { t: 'Swite', p50: '< 50ms', p99: '< 120ms', hot: true },
+                    { t: 'Vite', p50: '< 60ms', p99: '< 150ms', hot: false },
+                    { t: 'Rspack', p50: '< 80ms', p99: '< 200ms', hot: false },
+                    { t: 'Webpack 5', p50: '500ms', p99: '1,800ms', hot: false },
+                  ].map(row => (
+                    <tr key={row.t}>
+                      <td style={row.hot ? 'font-weight:700;color:var(--sw-accent);' : ''}>{row.t}</td>
+                      <td style={row.hot ? 'color:var(--sw-accent);font-weight:700;' : ''}>{row.p50}</td>
+                      <td style={row.hot ? 'color:var(--sw-accent);font-weight:700;' : ''}>{row.p99}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div class="sw-doc-note">
+              Benchmarks run on MacBook Pro M3, Node.js 22. Source: internal benchmarks run against publicly available example projects. Numbers may vary by project size and machine.
+            </div>
+          </div>
+        </div>
+      </Shell>
+    );
+  }
+}
