@@ -1,0 +1,70 @@
+import { SwissComponent } from '@kibologic/core';
+import { Shell } from '../../components/Shell.uix';
+
+component FeaturesCompilerPage {
+  render() {
+    return (
+      <Shell activeRoute="/features/compiler">
+        <div style="max-width: 860px;">
+          <div style="margin-bottom: 32px;">
+            <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 8px;">Features</div>
+            <h1 style="margin: 0 0 12px; font-size: 42px; letter-spacing: -0.05em;">Compiler</h1>
+            <p style="margin: 0; color: var(--text-secondary); font-size: 16px; line-height: 1.7; max-width: 680px;">
+              Swite's compiler pipeline transforms <code class="sw-inline-code">.ui</code> and <code class="sw-inline-code">.uix</code> files through the SwissJS compiler, TypeScript, and esbuild in a single pass — no intermediate files, no temp directory.
+            </p>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 28px;">
+            <div class="sw-doc-card">
+              <h2 style="margin: 0 0 12px; font-size: 20px; font-weight: 700;">Pipeline</h2>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                {[
+                  { step: '1. Swiss transform', desc: 'component keyword → class extends SwissComponent; state block → reactive getters/setters' },
+                  { step: '2. JSX transform', desc: 'JSX syntax → createElement calls using the classic JSX runtime' },
+                  { step: '3. TypeScript erasure', desc: 'Type annotations stripped via TypeScript compiler API — type checking available separately via tsc' },
+                  { step: '4. Import rewriting', desc: 'Bare specifiers (e.g. @kibologic/core) resolved to node_modules paths or CDN URLs for browser loading' },
+                  { step: '5. esbuild bundle', desc: 'Final bundle — tree-shaken, minified, content-hashed for production' },
+                ].map(row => (
+                  <div key={row.step} style="padding: 12px 16px; background: var(--bg-page); border: 1px solid var(--border); border-radius: 6px;">
+                    <div style="font-size: 11px; font-weight: 800; color: var(--sw-accent); margin-bottom: 4px;">{row.step}</div>
+                    <div style="font-size: 13px; color: var(--text-secondary);">{row.desc}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div class="sw-doc-card">
+              <h2 style="margin: 0 0 12px; font-size: 20px; font-weight: 700;">Dev vs production</h2>
+              <table class="sw-table">
+                <thead><tr><th>Stage</th><th>Dev</th><th>Production</th></tr></thead>
+                <tbody>
+                  {[
+                    { s: 'Minification', d: 'None', p: 'esbuild minify' },
+                    { s: 'Source maps', d: 'Inline', p: 'External (optional)' },
+                    { s: 'Tree shaking', d: 'None', p: 'esbuild tree-shaking' },
+                    { s: 'File naming', d: 'Readable paths', p: 'Content-hashed names' },
+                    { s: 'Compile speed', d: 'Incremental (HMR)', p: 'Full bundle' },
+                  ].map(row => (
+                    <tr key={row.s}>
+                      <td style="color:var(--text-secondary);">{row.s}</td>
+                      <td style="color:var(--text-muted);">{row.d}</td>
+                      <td style="color:var(--sw-accent);">{row.p}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div class="sw-doc-card">
+              <h2 style="margin: 0 0 12px; font-size: 20px; font-weight: 700;">Cold start performance</h2>
+              <p style="margin: 0 0 14px; color: var(--text-secondary); font-size: 14px; line-height: 1.6;">
+                Swite's compiler pipeline cold-starts in under 200ms for typical SwissJS projects. The single-pass design — no Babel, no separate TS compile step — is why Swite boots faster than Vite for SwissJS apps.
+              </p>
+              <div class="sw-code-block">{"$ time pnpm dev\n> node dev.mjs\nDev server running at http://localhost:5000  (182ms)"}</div>
+            </div>
+          </div>
+        </div>
+      </Shell>
+    );
+  }
+}

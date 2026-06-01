@@ -1,0 +1,45 @@
+import { SwissComponent } from '@kibologic/core';
+import { Shell } from '../../components/Shell.uix';
+
+component FrameworkVuePage {
+  render() {
+    return (
+      <Shell activeRoute="/framework/vue">
+        <div style="max-width: 860px;">
+          <div style="margin-bottom: 32px;">
+            <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 8px;">Cross-Framework</div>
+            <h1 style="margin: 0 0 12px; font-size: 42px; letter-spacing: -0.05em;">Vue + Swite</h1>
+            <p style="margin: 0; color: var(--text-secondary); font-size: 16px; line-height: 1.7; max-width: 680px;">
+              Swite can build Vue 3 Single File Component projects via the <code class="sw-inline-code">swite-plugin-vue</code> adapter, which wraps <code class="sw-inline-code">@vue/compiler-sfc</code>.
+            </p>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 28px;">
+            <div class="sw-doc-card">
+              <h2 style="margin: 0 0 12px; font-size: 20px; font-weight: 700;">Setup</h2>
+              <div class="sw-code-block">{"pnpm add @kibologic/swite swite-plugin-vue vue\npnpm add -D @vue/compiler-sfc"}</div>
+              <div class="sw-code-block" style="margin-top: 12px;">{"// dev.mjs\nimport { createServer } from '@kibologic/swite';\nimport { vuePlugin } from 'swite-plugin-vue';\n\nconst server = await createServer({\n  root: './src',\n  entry: 'main.ts',\n  plugins: [vuePlugin()],\n  port: 5173,\n});\nawait server.listen();"}</div>
+            </div>
+
+            <div class="sw-doc-card">
+              <h2 style="margin: 0 0 12px; font-size: 20px; font-weight: 700;">Vue SFC example</h2>
+              <div class="sw-code-block">{"<!-- src/App.vue -->\n<template>\n  <div>\n    <h1>Vue + Swite</h1>\n    <button @click=\"count++\">Count: {{ count }}</button>\n  </div>\n</template>\n\n<script setup lang=\"ts\">\nimport { ref } from 'vue';\nconst count = ref(0);\n</script>\n\n<!-- src/main.ts -->\nimport { createApp } from 'vue';\nimport App from './App.vue';\ncreateApp(App).mount('#app');"}</div>
+            </div>
+
+            <div class="sw-doc-card">
+              <h2 style="margin: 0 0 12px; font-size: 20px; font-weight: 700;">Mixed SwissJS + Vue project</h2>
+              <p style="margin: 0 0 14px; color: var(--text-secondary); font-size: 14px; line-height: 1.6;">
+                Swite can run both plugins simultaneously, enabling mixed projects where SwissJS components and Vue components coexist under the same dev server — each handled by its respective plugin transform.
+              </p>
+              <div class="sw-code-block">{"plugins: [\n  reactPlugin(),     // handles .tsx files\n  vuePlugin(),       // handles .vue files\n  // Swiss transform is always applied to .uix/.ui\n]"}</div>
+            </div>
+
+            <div class="sw-doc-note">
+              <code class="sw-inline-code">swite-plugin-vue</code> is currently in development. Star the repo at <code class="sw-inline-code">github.com/kibologic/swite-plugin-vue</code> to follow progress.
+            </div>
+          </div>
+        </div>
+      </Shell>
+    );
+  }
+}
