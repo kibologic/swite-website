@@ -1,6 +1,15 @@
 import { mount, Signal, SwissComponent, createElement, Fragment } from '@kibologic/core';
 import { LandingPage } from './pages/LandingPage.uix';
 import { DocsPage } from './pages/DocsPage.uix';
+import { BenchmarksPage } from './pages/BenchmarksPage.uix';
+import { PluginEcosystemPage } from './pages/PluginEcosystemPage.uix';
+import { FeaturesCompilerPage } from './pages/features/FeaturesCompilerPage.uix';
+import { FeaturesBundlerPage } from './pages/features/FeaturesBundlerPage.uix';
+import { FeaturesHMRPage } from './pages/features/FeaturesHMRPage.uix';
+import { FeaturesPluginsPage } from './pages/features/FeaturesPluginsPage.uix';
+import { FeaturesTreeShakingPage } from './pages/features/FeaturesTreeShakingPage.uix';
+import { FrameworkReactPage } from './pages/framework/FrameworkReactPage.uix';
+import { FrameworkVuePage } from './pages/framework/FrameworkVuePage.uix';
 
 globalThis.createElement = createElement;
 globalThis.Fragment = Fragment;
@@ -28,6 +37,16 @@ document.addEventListener('click', (e: any) => {
 component Router {
   render() {
     const r = route$.value;
+    if (r === '/' || r === '') return <LandingPage />;
+    if (r === '/benchmarks') return <BenchmarksPage />;
+    if (r === '/plugins') return <PluginEcosystemPage />;
+    if (r === '/features/compiler') return <FeaturesCompilerPage />;
+    if (r === '/features/bundler') return <FeaturesBundlerPage />;
+    if (r === '/features/hmr') return <FeaturesHMRPage />;
+    if (r === '/features/plugins') return <FeaturesPluginsPage />;
+    if (r === '/features/tree-shaking') return <FeaturesTreeShakingPage />;
+    if (r === '/framework/react') return <FrameworkReactPage />;
+    if (r === '/framework/vue') return <FrameworkVuePage />;
     if (r.startsWith('/docs')) return <DocsPage route={r} />;
     return <LandingPage />;
   }

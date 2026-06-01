@@ -1,0 +1,70 @@
+import { SwissComponent } from '@kibologic/core';
+import { Shell } from '../../components/Shell.uix';
+
+component FeaturesHMRPage {
+  render() {
+    return (
+      <Shell activeRoute="/features/hmr">
+        <div style="max-width: 860px;">
+          <div style="margin-bottom: 32px;">
+            <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 8px;">Features</div>
+            <h1 style="margin: 0 0 12px; font-size: 42px; letter-spacing: -0.05em;">Hot Module Replacement</h1>
+            <p style="margin: 0; color: var(--text-secondary); font-size: 16px; line-height: 1.7; max-width: 680px;">
+              Swite's HMR engine updates your browser instantly when you save a file — no full reload, no lost state. Changes to <code class="sw-inline-code">.uix</code> components are applied in under 50ms.
+            </p>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 28px;">
+            <div class="sw-doc-card">
+              <h2 style="margin: 0 0 12px; font-size: 20px; font-weight: 700;">How it works</h2>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                {[
+                  '1. You save a .uix file',
+                  '2. Swite\'s file watcher detects the change (< 5ms)',
+                  '3. Only the changed file is recompiled (incremental transform)',
+                  '4. The new module is sent via WebSocket to the browser',
+                  '5. SwissJS hot-swaps the component class in-place',
+                  '6. Affected component instances re-render — state is preserved',
+                ].map((step, i) => (
+                  <div key={String(i)} style="padding: 10px 14px; background: var(--bg-page); border: 1px solid var(--border); border-radius: 6px; font-size: 13px; color: var(--text-secondary);">{step}</div>
+                ))}
+              </div>
+            </div>
+
+            <div class="sw-doc-card">
+              <h2 style="margin: 0 0 12px; font-size: 20px; font-weight: 700;">HMR latency</h2>
+              <table class="sw-table">
+                <thead><tr><th>Metric</th><th>Swite</th><th>Vite</th><th>webpack-dev-server</th></tr></thead>
+                <tbody>
+                  {[
+                    { m: 'File save → compile', sw: '< 5ms', v: '< 10ms', w: '200–800ms' },
+                    { m: 'Compile → browser update', sw: '< 30ms', v: '< 40ms', w: '300–1200ms' },
+                    { m: 'Total perceived latency', sw: '< 50ms', v: '< 60ms', w: '500–2000ms' },
+                    { m: 'State preserved on update', sw: 'Yes', v: 'Partial (framework-dependent)', w: 'No (full reload default)' },
+                  ].map(row => (
+                    <tr key={row.m}>
+                      <td style="color:var(--text-secondary);">{row.m}</td>
+                      <td style="color:var(--sw-accent);font-weight:700;">{row.sw}</td>
+                      <td style="color:var(--text-muted);">{row.v}</td>
+                      <td style="color:var(--text-muted);">{row.w}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div class="sw-doc-card">
+              <h2 style="margin: 0 0 12px; font-size: 20px; font-weight: 700;">State preservation</h2>
+              <p style="margin: 0 0 14px; color: var(--text-secondary); font-size: 14px; line-height: 1.6;">
+                When a <code class="sw-inline-code">.uix</code> component is updated, Swite preserves the component's reactive state across the update. If you have a form half-filled and save the component, the form stays filled after the HMR swap.
+              </p>
+              <div class="sw-doc-note">
+                State is only preserved when the state shape is unchanged. If you add or remove a state variable, Swite performs a fresh mount for that component to avoid type mismatches.
+              </div>
+            </div>
+          </div>
+        </div>
+      </Shell>
+    );
+  }
+}
