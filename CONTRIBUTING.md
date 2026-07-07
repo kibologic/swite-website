@@ -12,7 +12,7 @@ Thank you for your interest in improving the Swite documentation site.
 
 - All UI must be built as SwissJS `.uix` components
 - Use the defined CSS variables (`--brand-accent`, `--bg-page`, `--text-primary`, etc.)
-- All code examples must reference `@swissjs/` packages (not `@kibologic/`)
+- All code examples must reference `@swissjs/` packages (not `@swissjs/`)
 - Both light and dark mode must be tested
 
 ## Getting Started

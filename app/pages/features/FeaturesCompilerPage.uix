@@ -1,4 +1,4 @@
-import { SwissComponent } from '@kibologic/core';
+import { SwissComponent } from '@swissjs/core';
 import { Shell } from '../../components/Shell.uix';
 
 component FeaturesCompilerPage {
@@ -22,7 +22,7 @@ component FeaturesCompilerPage {
                   { step: '1. Swiss transform', desc: 'component keyword → class extends SwissComponent; state block → reactive getters/setters' },
                   { step: '2. JSX transform', desc: 'JSX syntax → createElement calls using the classic JSX runtime' },
                   { step: '3. TypeScript erasure', desc: 'Type annotations stripped via TypeScript compiler API — type checking available separately via tsc' },
-                  { step: '4. Import rewriting', desc: 'Bare specifiers (e.g. @kibologic/core) resolved to node_modules paths or CDN URLs for browser loading' },
+                  { step: '4. Import rewriting', desc: 'Bare specifiers (e.g. @swissjs/core) resolved to node_modules paths or CDN URLs for browser loading' },
                   { step: '5. esbuild bundle', desc: 'Final bundle — tree-shaken, minified, content-hashed for production' },
                 ].map(row => (
                   <div key={row.step} style="padding: 12px 16px; background: var(--bg-page); border: 1px solid var(--border); border-radius: 6px;">

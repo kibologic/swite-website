@@ -1,4 +1,4 @@
-import { SwissComponent } from '@kibologic/core';
+import { SwissComponent } from '@swissjs/core';
 import { Shell } from '../../components/Shell.uix';
 
 component FrameworkVuePage {
@@ -17,8 +17,8 @@ component FrameworkVuePage {
           <div style="display: flex; flex-direction: column; gap: 28px;">
             <div class="sw-doc-card">
               <h2 style="margin: 0 0 12px; font-size: 20px; font-weight: 700;">Setup</h2>
-              <div class="sw-code-block">{"pnpm add @kibologic/swite swite-plugin-vue vue\npnpm add -D @vue/compiler-sfc"}</div>
-              <div class="sw-code-block" style="margin-top: 12px;">{"// dev.mjs\nimport { createServer } from '@kibologic/swite';\nimport { vuePlugin } from 'swite-plugin-vue';\n\nconst server = await createServer({\n  root: './src',\n  entry: 'main.ts',\n  plugins: [vuePlugin()],\n  port: 5173,\n});\nawait server.listen();"}</div>
+              <div class="sw-code-block">{"pnpm add @swissjs/swite swite-plugin-vue vue\npnpm add -D @vue/compiler-sfc"}</div>
+              <div class="sw-code-block" style="margin-top: 12px;">{"// dev.mjs\nimport { createServer } from '@swissjs/swite';\nimport { vuePlugin } from 'swite-plugin-vue';\n\nconst server = await createServer({\n  root: './src',\n  entry: 'main.ts',\n  plugins: [vuePlugin()],\n  port: 5173,\n});\nawait server.listen();"}</div>
             </div>
 
             <div class="sw-doc-card">

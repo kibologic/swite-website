@@ -1,11 +1,11 @@
-import { SwissComponent } from '@kibologic/core';
+import { SwissComponent } from '@swissjs/core';
 import { Shell } from '../components/Shell.uix';
 
 component PluginEcosystemPage {
   _plugins(): any[] {
     return [
-      { name: '@kibologic/plugin-file-router', status: 'stable', desc: 'Auto-generates routes from the pages/ directory. Maps FooPage.uix → /foo.', install: 'pnpm add @kibologic/plugin-file-router' },
-      { name: '@kibologic/plugin-web-storage', status: 'stable', desc: 'Reactive wrappers around localStorage and sessionStorage. State persists across page reloads.', install: 'pnpm add @kibologic/plugin-web-storage' },
+      { name: '@swissjs/plugin-file-router', status: 'stable', desc: 'Auto-generates routes from the pages/ directory. Maps FooPage.uix → /foo.', install: 'pnpm add @swissjs/plugin-file-router' },
+      { name: '@swissjs/plugin-web-storage', status: 'stable', desc: 'Reactive wrappers around localStorage and sessionStorage. State persists across page reloads.', install: 'pnpm add @swissjs/plugin-web-storage' },
       { name: 'swite-plugin-react', status: 'planned', desc: 'Enables React and React DOM support in Swite projects. Adds .tsx transform and JSX runtime configuration.', install: 'pnpm add swite-plugin-react' },
       { name: 'swite-plugin-vue', status: 'planned', desc: 'Vue SFC (.vue) support via @vue/compiler-sfc. Run Vue 3 components alongside or inside SwissJS apps.', install: 'pnpm add swite-plugin-vue' },
       { name: 'swite-plugin-mdx', status: 'planned', desc: 'MDX content pipeline — .mdx files are compiled to components and can import and render SwissJS components.', install: 'pnpm add swite-plugin-mdx' },

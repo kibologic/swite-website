@@ -1,4 +1,4 @@
-import { SwissComponent } from '@kibologic/core';
+import { SwissComponent } from '@swissjs/core';
 import { Shell } from '../../components/Shell.uix';
 
 component FeaturesBundlerPage {
@@ -44,7 +44,7 @@ component FeaturesBundlerPage {
             <div class="sw-doc-card">
               <h2 style="margin: 0 0 12px; font-size: 20px; font-weight: 700;">Tree shaking</h2>
               <p style="margin: 0 0 14px; color: var(--text-secondary); font-size: 14px; line-height: 1.6;">esbuild statically analyses ESM imports and removes unused exports. For SwissJS apps, this means only the SwissComponent primitives you actually use are included in the bundle.</p>
-              <div class="sw-code-block">{"// You import only what you need:\nimport { SwissComponent, Signal } from '@kibologic/core';\n\n// @swissjs/core exports 12 symbols — only SwissComponent and Signal\n// end up in your bundle. 10 others are eliminated."}</div>
+              <div class="sw-code-block">{"// You import only what you need:\nimport { SwissComponent, Signal } from '@swissjs/core';\n\n// @swissjs/core exports 12 symbols — only SwissComponent and Signal\n// end up in your bundle. 10 others are eliminated."}</div>
             </div>
 
             <div class="sw-doc-card">

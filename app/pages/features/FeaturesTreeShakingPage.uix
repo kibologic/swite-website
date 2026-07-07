@@ -1,4 +1,4 @@
-import { SwissComponent } from '@kibologic/core';
+import { SwissComponent } from '@swissjs/core';
 import { Shell } from '../../components/Shell.uix';
 
 component FeaturesTreeShakingPage {
@@ -20,7 +20,7 @@ component FeaturesTreeShakingPage {
               <p style="margin: 0 0 14px; color: var(--text-secondary); font-size: 14px; line-height: 1.6;">
                 Swite uses esbuild's tree shaking, which operates on ESM static import analysis. Any export that is not reachable from the entry point is eliminated at build time.
               </p>
-              <div class="sw-code-block">{"// @swissjs/core exports: SwissComponent, Signal, mount,\n//   createElement, Fragment, createEffect, computed, ...\n\n// You import only what you use:\nimport { SwissComponent, Signal, mount, createElement, Fragment } from '@kibologic/core';\n\n// Result: createEffect, computed, and 7 other exports never\n// appear in your bundle."}</div>
+              <div class="sw-code-block">{"// @swissjs/core exports: SwissComponent, Signal, mount,\n//   createElement, Fragment, createEffect, computed, ...\n\n// You import only what you use:\nimport { SwissComponent, Signal, mount, createElement, Fragment } from '@swissjs/core';\n\n// Result: createEffect, computed, and 7 other exports never\n// appear in your bundle."}</div>
             </div>
 
             <div class="sw-doc-card">
