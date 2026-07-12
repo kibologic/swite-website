@@ -1,0 +1,53 @@
+import { SwissComponent } from '@kibologic/core';
+import { Shell } from '../../components/Shell.uix';
+
+component FeaturesTreeShakingPage {
+  render() {
+    return (
+      <Shell activeRoute="/features/tree-shaking">
+        <div style="max-width: 860px;">
+          <div style="margin-bottom: 32px;">
+            <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 8px;">Features</div>
+            <h1 style="margin: 0 0 12px; font-size: 42px; letter-spacing: -0.05em;">Tree Shaking</h1>
+            <p style="margin: 0; color: var(--text-secondary); font-size: 16px; line-height: 1.7; max-width: 680px;">
+              Swite produces the smallest possible bundles by eliminating unused code at every level — framework exports, library functions, and your own components.
+            </p>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 28px;">
+            <div class="sw-doc-card">
+              <h2 style="margin: 0 0 12px; font-size: 20px; font-weight: 700;">How it works</h2>
+              <p style="margin: 0 0 14px; color: var(--text-secondary); font-size: 14px; line-height: 1.6;">
+                Swite uses esbuild's tree shaking, which operates on ESM static import analysis. Any export that is not reachable from the entry point is eliminated at build time.
+              </p>
+              <div class="sw-code-block">{"// @swissjs/core exports: SwissComponent, Signal, mount,\n//   createElement, Fragment, createEffect, computed, ...\n\n// You import only what you use:\nimport { SwissComponent, Signal, mount, createElement, Fragment } from '@kibologic/core';\n\n// Result: createEffect, computed, and 7 other exports never\n// appear in your bundle."}</div>
+            </div>
+
+            <div class="sw-doc-card">
+              <h2 style="margin: 0 0 12px; font-size: 20px; font-weight: 700;">Component-level elimination</h2>
+              <p style="margin: 0 0 14px; color: var(--text-secondary); font-size: 14px; line-height: 1.6;">Entire page components that are never imported are eliminated. If you have a <code class="sw-inline-code">AdminPage.uix</code> that is commented out of your router, it produces zero bytes in the bundle.</p>
+              <div class="sw-code-block">{"// main.ui\nimport { HomePage } from './pages/HomePage.uix';\n// import { AdminPage } from './pages/AdminPage.uix'; // not imported\n\n// AdminPage.uix: 0 bytes in production bundle"}</div>
+            </div>
+
+            <div class="sw-doc-card">
+              <h2 style="margin: 0 0 12px; font-size: 20px; font-weight: 700;">Writing tree-shakeable code</h2>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                {[
+                  { tip: 'Use named exports', detail: 'Default exports prevent tree-shaking the unused parts of a module.' },
+                  { tip: 'Avoid side effects at module level', detail: 'Code that runs on import (console.log, DOM manipulation) prevents elimination.' },
+                  { tip: 'Use dynamic imports for large dependencies', detail: 'import() creates a separate chunk loaded only when needed.' },
+                  { tip: 'Mark pure functions with /*@__PURE__*/', detail: 'Tells esbuild a function call has no side effects and can be eliminated if unused.' },
+                ].map(row => (
+                  <div key={row.tip} style="padding: 10px 14px; background: var(--bg-page); border: 1px solid var(--border); border-radius: 6px;">
+                    <div style="font-size: 12px; font-weight: 800; color: var(--sw-accent); margin-bottom: 4px;">{row.tip}</div>
+                    <div style="font-size: 13px; color: var(--text-secondary);">{row.detail}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </Shell>
+    );
+  }
+}
